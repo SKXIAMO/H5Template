@@ -1,4 +1,3 @@
-import { showToast } from 'vant'
 import { useUserStore } from '@/stores'
 import { useJump } from './useJump'
 

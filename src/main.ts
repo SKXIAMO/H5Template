@@ -23,7 +23,7 @@ import 'vant/es/notify/style'
 import 'vant/es/image-preview/style'
 
 /* 模拟 window 带入的数据 */
-// import '@/config/mock-data'
+import '@/config/mock-data'
 
 const app = createApp(App)
 const head = createHead()

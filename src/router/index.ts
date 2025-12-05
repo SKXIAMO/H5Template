@@ -5,9 +5,11 @@ import NProgress from 'nprogress'
 import { createRouter, createWebHistory } from 'vue-router'
 // import { handleHotUpdate, routes } from 'vue-router/auto-routes'
 
-import { useRouteCacheStore, useUserStore } from '@/stores'
+import { useRouteCacheStore
+  // useUserStore
+ } from '@/stores'
 
-import { isLogin } from '@/utils/auth'
+// import { isLogin } from '@/utils/auth'
 
 import setPageTitle from '@/utils/set-page-title'
 
@@ -47,14 +49,14 @@ router.beforeEach(async (to: EnhancedRouteLocation) => {
   NProgress.start()
 
   const routeCacheStore = useRouteCacheStore()
-  const userStore = useUserStore()
+  // const userStore = useUserStore()
 
   // Route cache
   routeCacheStore.addRoute(to)
 
   // 设置页面标题
   setPageTitle(to.name)
-  if (isLogin() && !userStore.userInfo?.uid) await userStore.info()
+  // if (isLogin() && !userStore.userInfo?.uid) await userStore.info()
 })
 
 router.afterEach(() => {
