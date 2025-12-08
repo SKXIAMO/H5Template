@@ -31,6 +31,7 @@ const onSend = () => {
           </div>
         </template>
       </van-field>
+      <van-number-keyboard safe-area-inset-bottom />
     </div>
   </div>
 </template>

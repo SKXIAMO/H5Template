@@ -46,6 +46,7 @@ onMounted(() => {
 
 <template>
   <van-config-provider :theme="mode">
+    <van-nav-bar safe-area-inset-top />
     <nav-bar />
     <router-view v-slot="{ Component }">
       <section class="app-wrapper">
