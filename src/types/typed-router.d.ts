@@ -114,9 +114,9 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    'UnoCSS': RouteRecordInfo<
-      'UnoCSS',
-      '/unocss',
+    'ReportIndex': RouteRecordInfo<
+      'ReportIndex',
+      '/report-index',
       Record<never, never>,
       Record<never, never>,
       | never

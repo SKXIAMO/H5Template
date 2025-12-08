@@ -14,7 +14,7 @@ console.log(props.list, '==22')
 </script>
 
 <template>
-  <div text-red>
+  <div safe-area-inset-bottom>
     <div v-for="(item, index) in props.list" :key="index" p-4 ai-fill-bg ai-rounded class="card-comment">
       <ul flex items-center justify-between>
         <li flex items-center>

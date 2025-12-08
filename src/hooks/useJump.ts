@@ -7,14 +7,18 @@ export const useJump = () => {
    * 返回
    */
   const onBack = async () => {
-    try {
-      await window.flutter_inappwebview.callHandler('close')
-    } catch (e) {
-      console.warn('Flutter handler close 调用失败', e)
-      if (window.history.state.back) {
-        history.back()
-      } else {
-        router.replace('/')
+    if (route.name === 'ReportIndex') {
+      history.back()
+    } else {
+      try {
+        await window.flutter_inappwebview.callHandler('close')
+      } catch (e) {
+        console.warn('Flutter handler close 调用失败', e)
+        if (window.history.state.back) {
+          history.back()
+        } else {
+          router.replace('/')
+        }
       }
     }
   }

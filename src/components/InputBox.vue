@@ -22,9 +22,9 @@ const onSend = () => {
 </script>
 
 <template>
-  <div px-layout-padding class="input-box">
+  <div safe-area-inset-bottom px-layout-padding class="input-box">
     <div class="input--width">
-      <van-field v-model="value" placeholder="请输入用户名">
+      <van-field v-model="value" placeholder="Say something">
         <template #button>
           <div flex items-center>
             <van-image :src="inputSendIcon" @click="onSend" />
