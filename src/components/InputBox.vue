@@ -23,7 +23,6 @@ const onSend = () => {
 
 <template>
   <div px-layout-padding class="input-box">
-    <van-nav-bar safe-area-inset-top />
     <div class="input--width">
       <van-field v-model="value" placeholder="请输入用户名">
         <template #button>
@@ -32,7 +31,6 @@ const onSend = () => {
           </div>
         </template>
       </van-field>
-      <van-number-keyboard safe-area-inset-bottom />
     </div>
   </div>
 </template>

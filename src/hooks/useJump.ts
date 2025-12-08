@@ -7,11 +7,10 @@ export const useJump = () => {
    * 返回
    */
   const onBack = async () => {
-    // 判断是否有 window.flutter_inappwebview.callHandler('close')
     try {
-      await window.flutter_inappwebview.callHandler('close');
+      await window.flutter_inappwebview.callHandler('close')
     } catch (e) {
-      console.warn('Flutter handler close 调用失败', e);
+      console.warn('Flutter handler close 调用失败', e)
       if (window.history.state.back) {
         history.back()
       } else {

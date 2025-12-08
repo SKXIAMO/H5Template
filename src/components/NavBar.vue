@@ -70,7 +70,7 @@ const showTitle = computed(
 
 <template>
   <VanNavBar v-if="isNavBar" :title="showLeftArrow ? '' : title" :left-arrow="showLeftArrow" :fixed="true"
-    :border="false" clickable @click-left="onBack"
+    :border="false" clickable safe-area-inset-top @click-left="onBack"
 >
     <template v-if="showLeftArrow" #left>
       <div flex items-end justify-center>
