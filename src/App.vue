@@ -63,5 +63,11 @@ onMounted(() => {
 .app-wrapper {
   width: 100%;
   position: relative;
+  height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
+  overflow-y: auto; /* 滚动 */
+  -webkit-overflow-scrolling: touch; /* iOS 平滑滚动 */
 }
 </style>
