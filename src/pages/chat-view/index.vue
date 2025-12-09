@@ -2,15 +2,39 @@
 import ChatBack from '@/assets/public/chat-index.png'
 import MasonryIcon from '@/assets/public/masonry-icon.png'
 import { useAppImgStyle } from '@/hooks/useAppImgStyle'
+import { useJump } from '@/hooks/useJump'
+import { useWindow } from '@/hooks/useWindow'
+import { useUserStore } from '@/stores'
 
 defineOptions({
   name: 'ChatView'
 })
 
 const { chatBtnIcon, chatBgImage } = useAppImgStyle()
+const { winUserData, winUserListData, winChatBotDesc } = useWindow()
+const { userInfo } = useUserStore()
+const { jumpToRecharge, appParams } = useJump()
 
 /** 弹框  */
 const show = ref(false)
+
+const onSubmit = () => {
+  show.value = !(userInfo.coins >= winChatBotDesc.points)
+  if (userInfo.coins >= winChatBotDesc.points) {
+    const data = {
+      ...winUserData,
+      coins: userInfo.coins - winChatBotDesc.points
+    }
+
+    const list = winUserListData.map(v => {
+      if (v.userId === data.userId) {
+        v.coins = data.coins
+      }
+      return v
+    })
+    appParams({ key: 'updateUser', value: list, state: 0 })
+  }
+}
 </script>
 
 <template>
@@ -18,12 +42,12 @@ const show = ref(false)
     <van-image :src="ChatBack" fit="cover" class="top-back" />
     <div class="text-center w-full top-34vh absolute">
       <ul p-layout-padding>
-        <li ai-input-title>标题</li>
-        <li ai-text-desc class="mt-7 !text-[var(--ai-chat-view-text-color)]">内容内容内容</li>
+        <li ai-input-title>{{ winChatBotDesc.title }}</li>
+        <li ai-text-desc class="mt-7 !text-[var(--ai-chat-view-text-color)]">{{ winChatBotDesc.content }}</li>
         <li mt-16 flex justify-center>
-          <p ai-gradient-btn class="bottom-btn" @click="show = true">
+          <p ai-gradient-btn class="bottom-btn" @click="onSubmit">
             <van-image h-12 w-12 :src="MasonryIcon" fit="cover" />
-            <span text-5 font-400 ml-1>X 200</span>
+            <span text-5 font-400 ml-1>X {{ winChatBotDesc.points }}</span>
             <span text-4 font-400 ml-8 mr-1>Chat</span>
             <van-image :src="chatBtnIcon" fit="cover" />
           </p>
@@ -39,7 +63,7 @@ const show = ref(false)
             <span mt-3>your current balance is insufficient</span>
           </div>
           <div mt-8 flex justify-center>
-            <p ai-gradient-btn>Recharge</p>
+            <p ai-gradient-btn @click="jumpToRecharge()">Recharge</p>
           </div>
         </div>
       </div>

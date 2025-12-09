@@ -1,16 +1,20 @@
 <script setup lang=ts>
 import Head from '@/assets/public/Head.png'
 import { useAppImgStyle } from '@/hooks/useAppImgStyle'
+import { useDetail } from '@/hooks/useDetail'
 
 defineOptions({
   name: 'ShortVideo'
 })
 
 const { reportIcon, addIcon, messageIcon, likeIcon } = useAppImgStyle()
+const { loding, dynamicInfo, commentList, onSend } = useDetail()
 
 const videoRef = ref(null)
 const isPlaying = ref(false)
 const isPopup = ref(false)
+// 举报弹框
+const isReport = ref(false)
 
 const togglePlay = async () => {
   if (!videoRef.value) return
@@ -30,27 +34,25 @@ const togglePlay = async () => {
 </script>
 
 <template>
-  <div class="video-box">
-    <video ref="videoRef" src="https://media.w3.org/2010/05/sintel/trailer.mp4" width="100%" height="100%"
-      @click="togglePlay"
-/>
+  <div v-if="!loding" class="video-box">
+    <video ref="videoRef" :src="dynamicInfo?.dynamicVideo" width="100%" height="100%" @click="togglePlay" />
     <van-icon v-if="!isPlaying" :name="isPlaying ? 'pause-circle' : 'play-circle'" class="play-box"
       @click="togglePlay"
 />
     <div p-layout-padding class="bottom-box">
       <div mb-5 flex>
         <div h-12 w-12 relative>
-          <van-image round ai-avatar :src="Head" fit="cover" class="user-head" />
+          <van-image round ai-avatar :src="dynamicInfo?.avator || Head" fit="cover" class="user-head" />
           <van-image round right-3.3 top-9.5 absolute :src="addIcon" fit="cover" />
         </div>
         <ul ml-3 shrink w-full>
           <li flex justify-between>
-            <span ai-user-name>Apien</span>
-            <van-image :src="reportIcon" />
+            <span ai-user-name>{{ dynamicInfo?.name }}</span>
+            <van-image :src="reportIcon" @click="isReport = true" />
           </li>
           <li>
             <span mt-1 ai-text-desc>
-              评论内容评论内容评论内容评论内容
+              {{ dynamicInfo?.dynamicDesc }}
             </span>
           </li>
         </ul>
@@ -58,11 +60,11 @@ const togglePlay = async () => {
       <ul class="bottom-btn">
         <li @click="isPopup = true">
           <van-image :src="messageIcon" class="icon-box" />
-          <span class="public-number">1.2K</span>
+          <span class="public-number">{{ dynamicInfo?.dynamicCommentCount }}</span>
         </li>
         <li>
           <van-image :src="likeIcon" class="icon-box" />
-          <span class="public-number">1.2K</span>
+          <span class="public-number">{{ dynamicInfo?.dynamicLikeCount }}</span>
         </li>
       </ul>
     </div>
@@ -71,11 +73,13 @@ const togglePlay = async () => {
       <div p-layout-padding>
         <van-divider content-position="left">Comments</van-divider>
         <div class="h-[56vh] overflow-y-auto">
-          <comment-card pb-16 />
+          <comment-card :list="commentList" pb-16 />
         </div>
-        <input-box />
+        <input-box @send="(v) => onSend(v, 1)" />
       </div>
     </popup-box>
+
+     <report-box v-model:show="isReport" />
   </div>
 </template>
 

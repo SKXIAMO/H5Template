@@ -1,21 +1,25 @@
 <script setup lang=ts>
 import MasonryIcon from '@/assets/public/masonry-icon.png'
 import MyIcon from '@/assets/public/my-icon.png'
+import { useJump } from '@/hooks/useJump'
+import { useWindow } from '@/hooks/useWindow'
+import { useUserStore } from '@/stores'
 
 defineOptions({
   name: 'GoldCoin'
 })
 
-const bottomList = [
-  { name: '400', label: '4.99$', value: '0' },
-  { name: '400', label: '4.99$', value: '1' },
-  { name: '400', label: '4.99$', value: '2' },
-  { name: '400', label: '4.99$', value: '3' }
-]
+const { userInfo } = useUserStore()
+const { winCoinData } = useWindow()
+const { appParams } = useJump()
 
 const formData = reactive({
-  radio: '0'
+  radio: winCoinData[0]?.key
 })
+
+const onRecharge = () => {
+  appParams({ key: 'Recharge', value: formData.radio, state: 1 })
+}
 </script>
 
 <template>
@@ -27,26 +31,28 @@ const formData = reactive({
         </li>
         <li ml-8 flex flex-col>
           <span ai-user-name>My diamonds</span>
-          <span text-6 text-white font-medium>990</span>
+          <span text-6 text-white font-medium>
+            {{ userInfo.coins }}
+          </span>
         </li>
       </ul>
 
       <!-- 选项数据 -->
       <ul class="bottom-selsect">
-        <li v-for="item in bottomList" :key="item.value" :class="{ 'on-active': formData.radio === item.value }"
-          @click="formData.radio = item.value"
+        <li v-for="item in winCoinData" :key="item.key" :class="{ 'on-active': formData.radio === item.key }"
+          @click="formData.radio = item.key"
 >
           <p>
             <van-image h-4 w-5 :src="MyIcon" fit="cover" />
-            <span ml-1 ai-user-name>{{ item.name }}</span>
+            <span ml-1 ai-user-name>{{ item.cions }}</span>
           </p>
-          <span ai-text-desc>{{ item.label }}</span>
+          <span ai-text-desc>{{ item.meney }}$</span>
         </li>
       </ul>
 
       <!-- 按钮 -->
       <div mt-6 flex justify-center>
-        <p ai-gradient-btn>Recharge</p>
+        <p ai-gradient-btn @click="onRecharge">Recharge</p>
       </div>
     </div>
   </div>

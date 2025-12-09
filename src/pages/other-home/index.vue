@@ -1,43 +1,65 @@
 <script setup lang=ts>
 import Head from '@/assets/public/Head.png'
 import { useAppImgStyle } from '@/hooks/useAppImgStyle'
+import { detailId } from '@/hooks/useDetail'
+import { useJump } from '@/hooks/useJump'
+import { useWindow } from '@/hooks/useWindow'
 
 defineOptions({
   name: 'other-home'
 })
 
 const { reportIcon, otherHomeAddIcon, otherHomeMessageIcon, otherHomeLikeIcon } = useAppImgStyle()
+const { queryId } = useJump()
+const { winUserListData, winDynamicData } = useWindow()
 
 // 举报弹框
 const isReport = ref(false)
+const userInfo = ref<UserInfo>(null)
+const bottomList = ref<DynamicInfo[]>([])
+const loading = ref(true)
+
+const getData = () => {
+  userInfo.value = winUserListData.find(v => v.userId === queryId.value)
+
+  detailId.value = userInfo.value.userId
+
+  bottomList.value = winDynamicData.filter(v => v.userId === userInfo.value.userId)
+
+  loading.value = false
+}
+
+onMounted(() => {
+  getData()
+})
 </script>
 
 <template>
-  <div class="other-home_box">
+  <div v-if="!loading" class="other-home_box">
     <div class="top-user-info">
       <div class="avatar-info">
-        <van-image round ai-avatar :src="Head" fit="cover" class="user-head" />
+        <van-image round ai-avatar :src="userInfo.avator || Head" fit="cover" class="user-head" />
         <div h-2 w-20 relative>
           <van-image round bottom-2 left-14 absolute :src="otherHomeAddIcon" fit="cover" />
         </div>
-        <span mt-1 ai-user-name>Apien</span>
+        <span mt-1 ai-user-name>{{ userInfo.name }}</span>
       </div>
       <ul text-white flex justify-around class="number-box">
         <li>
-          <span>1</span>
+          <span>未知</span>
           <span>Posts</span>
         </li>
         <li>
-          <span>1</span>
+          <span>{{ userInfo.fans.length }}</span>
           <span>Fans</span>
         </li>
         <li>
-          <span>1</span>
+          <span>{{ userInfo.follow.length }}</span>
           <span>Follow</span>
         </li>
       </ul>
       <ul px-layout-padding class="bottom-box">
-        <li>阿士大夫阿斯蒂发撒的撒撒的发撒的发撒的</li>
+        <li>{{ userInfo.about }}</li>
         <li>
           <van-image :src="otherHomeMessageIcon" class="icon-box" />
           <span ml-3 class="public-number !mt-0">Chat</span>
@@ -47,30 +69,35 @@ const isReport = ref(false)
 
     <div p-layout-padding class="bottom-card">
       <!-- 内容卡片 -->
-      <div class="card-item">
+      <div v-for="(item, index) in bottomList" :key="index" class="card-item">
         <ul class="top-info">
-          <li>
+          <!-- <li>
             <van-image round ai-avatar :src="Head" fit="cover" />
             <span mx-2 ai-user-name>Apien</span>
             <span ai-tag-btn class="tag"># Theme</span>
-          </li>
+          </li> -->
+          <li />
           <li>
-            <van-image :src="reportIcon" @click="isReport = true" />
+            <van-image :src="reportIcon" @click="() => {
+              isReport = true
+              detailId = item.userId
+            }"
+/>
           </li>
         </ul>
         <ul class="bottom-img">
-          <li>
-            <van-image rounded-2 h-50 w-50 overflow-hidden :src="Head" fit="cover" />
+          <li w-full>
+            <van-image rounded-2 h-50 w-full overflow-hidden :src="Head" fit="cover" />
           </li>
-          <li>
+          <!-- <li>
             <van-image rounded-2 h-23.5 w-22 overflow-hidden :src="Head" fit="cover" />
             <van-image rounded-2 h-23.5 w-22 overflow-hidden :src="Head" fit="cover" />
-          </li>
+          </li> -->
         </ul>
-        <span class="bottom-text">说明说说明说明说明说明说明说明明</span>
+        <span class="bottom-text">{{ item.dynamicDesc }}</span>
         <div class="like-box">
           <van-image :src="otherHomeLikeIcon" class="icon-box" />
-          <span class="public-number">1.2K</span>
+          <span class="public-number">{{ item.dynamicLikeCount }}</span>
         </div>
       </div>
     </div>
@@ -205,6 +232,9 @@ const isReport = ref(false)
       font-weight: var(--ai-other-home-card-desc-text-weight);
       color: var(--ai-other-home-card-desc-text-color);
       text-align: var(--ai-other-home-card-desc-text-sort);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .like-box {

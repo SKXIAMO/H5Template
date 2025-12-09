@@ -2,7 +2,6 @@
 import { useAppImgStyle } from '@/hooks/useAppImgStyle'
 
 const { inputSendIcon } = useAppImgStyle()
-console.log('输入框')
 
 const value = ref('')
 
@@ -10,12 +9,6 @@ const emit = defineEmits<{
   send: [_: string]
 }>()
 const onSend = () => {
-  // window.flutter_inappwebview.callHandler('updateUser', {
-  //   userId: '当前登录人id',
-  //   commentId: '添加评论id',
-  //   dynamicId: '当前动态id',
-  //   content: '输入框内容'
-  // })
   emit('send', value.value)
   value.value = ''
 }

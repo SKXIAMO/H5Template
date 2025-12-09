@@ -42,13 +42,15 @@ const { loding, dynamicInfo, commentList, onSend } = useDetail()
         </li>
       </ul>
 
-      <van-divider content-position="left">Comments</van-divider>
+      <van-divider content-position="left">
+        Comments
+      </van-divider>
 
       <comment-card :list="commentList" pb-16 />
 
       <input-box @send="onSend" />
     </div>
-  </div>
+</div>
 </template>
 
 <style lang="less" scoped>

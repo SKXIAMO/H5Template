@@ -1,17 +1,8 @@
 <script setup lang="ts">
 import type { UploaderFileListItem } from 'vant'
-import OSS from 'ali-oss'
-import axios from 'axios'
+import { useFile } from '@/hooks/useFile'
 
-type stsTypeData = {
-  AccessKeyId: string
-  AccessKeySecret: string
-  Expiration: string
-  SecurityToken: string
-  bucket: string
-  cdnUrl: string
-  host: string
-}
+const { uploadToOSS } = useFile()
 
 const fileList = defineModel<UploaderFileListItem[]>('list', {
   type: Array as PropType<UploaderFileListItem[]>,
@@ -21,64 +12,18 @@ const fileList = defineModel<UploaderFileListItem[]>('list', {
 
 const props = withDefaults(defineProps<{
   accept?: 'image' | 'video'
+  maxCount?: number
 }>(), {
-  accept: 'image'
+  accept: 'image',
+  maxCount: 9
 })
 
 /** 是否是图片上传 */
 const isImage = computed(() => props.accept === 'image')
-const stsData = ref<stsTypeData>()
 const videoData = reactive({
   url: '',
   show: false
 })
-
-/**
- * 获取 STS 临时凭证
- */
-const getSTS = async () => {
-  const res = await axios.get('https://api.wouldbeauty.com/sts/getkey')
-  stsData.value = res.data.result
-  return res.data.result
-}
-
-/** 上传到 OSS */
-const uploadToOSS = async (item: UploaderFileListItem) => {
-  // const sts = await getSTS()
-  item.status = 'uploading'
-  item.message = 'Uploading...'
-  const file = item.file
-  const sts: stsTypeData = stsData.value
-  const [, endpoint] = sts.host.split(`${sts.bucket}.`)
-  const client = new OSS({
-    accessKeyId: sts.AccessKeyId,
-    accessKeySecret: sts.AccessKeySecret,
-    stsToken: sts.SecurityToken,
-    bucket: sts.bucket,
-    endpoint,
-    // 自动刷新 STS Token
-    refreshSTSToken: async () => {
-      const resp = await getSTS()
-      return {
-        accessKeyId: resp.AccessKeyId,
-        accessKeySecret: resp.AccessKeySecret,
-        stsToken: resp.SecurityToken
-      }
-    },
-    refreshSTSTokenInterval: 900000 // 15分钟
-  })
-  const key = `template_development/${Date.now()}_${file.name}`
-  try {
-    const result = await client.put(key, file)
-    item.status = ''
-    return result.url
-  } catch (err) {
-    item.status = 'failed'
-    item.message = 'Failed...'
-    console.error('上传失败:', err)
-    throw err
-  }
-}
 
 const afterRead = async (fileOrFiles: UploaderFileListItem[]) => {
   // 判断是单个还是多个文件
@@ -110,16 +55,13 @@ const onCheckVideo = (item: UploaderFileListItem) => {
   videoData.url = item.objectUrl
   videoData.show = true
 }
-
-onMounted(() => {
-  getSTS()
-})
 </script>
 
 <template>
   <div class="uploader-box">
-    <van-uploader v-model="fileList" multiple :accept="isImage ? 'image/*' : 'video/*'" :preview-full-image="isImage"
-      :max-count="9" :upload-icon="isImage ? 'photograph' : 'video'" :after-read="afterRead"
+    <van-uploader v-model="fileList" :accept="isImage ? 'image/*' : 'video/*'" :preview-full-image="isImage"
+      :multiple="props.maxCount > 1" :max-count="props.maxCount" :upload-icon="isImage ? 'photograph' : 'video'"
+      :after-read="afterRead"
 >
       <template v-if="!isImage" #preview-cover="item">
         <div class="up-video-box" @click="onCheckVideo(item)">

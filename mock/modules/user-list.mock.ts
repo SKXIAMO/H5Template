@@ -41,5 +41,19 @@ export default [
     blockList: [],
     picPostLikeIds: [],
     videoPostLikeIds: []
+  },
+  {
+    userId: 'u99',
+    email: 'test@gmail.com',
+    password: '',
+    avator: '',
+    name: 'laiyla',
+    about: '这个人很棒',
+    coins: 101,
+    follow: ['u24', 'u23'],
+    fans: ['u22', 'u23'],
+    blockList: ['u22'],
+    picPostLikeIds: [],
+    videoPostLikeIds: []
   }
 ] as UserInfo[]

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Head from '@/assets/public/Head.png'
 import { useAppImgStyle } from '@/hooks/useAppImgStyle'
+import { detailId } from '@/hooks/useDetail'
 
 const { reportIcon } = useAppImgStyle()
 
@@ -10,7 +11,8 @@ const props = withDefaults(defineProps<{
   list: () => []
 })
 
-console.log(props.list, '==22')
+// 举报弹框
+const isReport = ref(false)
 </script>
 
 <template>
@@ -22,11 +24,17 @@ console.log(props.list, '==22')
           <span ml-3 ai-user-name>{{ item?.name || '' }}</span>
         </li>
         <li flex items-center>
-          <van-image :src="reportIcon" />
+          <van-image :src="reportIcon" @click="() => {
+            isReport = true
+            detailId = item.userId
+          }"
+/>
         </li>
       </ul>
       <span mt-2 ai-text-desc>{{ item?.content || '' }}</span>
     </div>
+
+    <report-box v-model:show="isReport" />
   </div>
 </template>
 

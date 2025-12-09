@@ -1,17 +1,22 @@
 <script setup lang="ts">
+import { useWindow } from '@/hooks/useWindow'
+
 defineOptions({
-  name: 'Follow'
+  name: 'UserAgreement'
 })
+
+const { winUserAgreement } = useWindow()
 </script>
 
 <template>
-  <div class="follow_box">
-    <my-list />
+  <div p-layout-padding class="follow_box">
+    <p>{{ winUserAgreement }}</p>
   </div>
 </template>
 
 <style lang="less" scoped>
 .follow_box {
+  color: #fff;
   padding-top: var(--van-nav-bar-height);
   min-height: 100vh;
   background: var(--ai-follow-bg-color);

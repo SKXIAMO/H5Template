@@ -2,6 +2,27 @@
 defineOptions({
   name: 'ChatDetails'
 })
+
+const listData = ref<MessageInfo[]>([
+  {
+    msgId: 'm1',
+    chatId: 'c1',
+    userId: 'u99',
+    sendContent: '...',
+    sendPicUrl: '',
+    sendTime: '2021-09-01 10:00:00',
+    position: 'left'
+  },
+  {
+    msgId: 'm2',
+    chatId: 'c1',
+    userId: 'u22',
+    sendContent: '...',
+    sendPicUrl: '',
+    sendTime: '2021-09-01 10:00:00',
+    position: 'right'
+  }
+])
 </script>
 
 <template>
@@ -23,7 +44,7 @@ defineOptions({
       </ul>
     </div>
 
-    <chat-list />
+    <chat-list v-model:list="listData" />
   </div>
 </template>
 

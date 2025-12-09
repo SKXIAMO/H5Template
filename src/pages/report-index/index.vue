@@ -1,34 +1,41 @@
 <script setup lang="ts">
+import { showLoadingToast } from 'vant'
 import defaultOptionIcon from '@/assets/public/default-option.png'
 import SelectedIcon from '@/assets/public/selected.png'
+import { useWindow } from '@/hooks/useWindow'
 
 defineOptions({
   name: 'ReportIndex'
 })
 
-const selectList = [
-  { label: 'Harassment', value: '0' },
-  { label: 'Malicious fraud', value: '1' },
-  { label: 'Pornography', value: '2' },
-  { label: 'Malicious insults', value: '3' },
-  { label: 'False Information', value: '4' }
-]
+const { winReportListData } = useWindow()
+const router = useRouter()
 
 const formData = reactive({
   title: '',
-  select: '0'
+  select: 0
 })
+
+const onSubmlt = () => {
+  showLoadingToast({
+    message: 'Loading...',
+    forbidClick: true,
+    onClose: () => {
+      router.back()
+    }
+  })
+}
 </script>
 
 <template>
   <div px-layout-padding class="report-index_box">
     <ul class="top-select">
-      <li v-for="item in selectList" :key="item.value" @click="formData.select = item.value">
-        <span>{{ item.label }}</span>
+      <li v-for="(item, index) in winReportListData" :key="index" @click="formData.select = index">
+        <span>{{ item.reportContext }}</span>
 
         <p class="selected-icon">
-          <van-image :src="formData.select === item.value ? SelectedIcon : defaultOptionIcon" fit="cover" />
-          <van-icon v-if="formData.select === item.value" name="success" class="success-icon" />
+          <van-image :src="formData.select === index ? SelectedIcon : defaultOptionIcon" fit="cover" />
+          <van-icon v-if="formData.select === index" name="success" class="success-icon" />
         </p>
       </li>
     </ul>
@@ -36,12 +43,12 @@ const formData = reactive({
     <!-- 输入框 -->
     <div mt-6>
       <div ai-input-title>Supplementary description</div>
-      <text-box rows="3" bg="#231e24" />
+      <text-box v-model="formData.title" rows="3" bg="#231e24" />
     </div>
 
     <!-- 底部按钮 -->
     <div mt-20 flex justify-center>
-      <div ai-gradient-btn>Submlt</div>
+      <div ai-gradient-btn @click="onSubmlt">Submlt</div>
     </div>
   </div>
 </template>

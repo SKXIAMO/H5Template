@@ -9,7 +9,7 @@ const show = defineModel<boolean>('show', {
 </script>
 
 <template>
-  <van-popup v-model:show="show" round closeable position="bottom">
+  <van-popup v-model:show="show" safe-area-inset-top safe-area-inset-bottom round closeable position="bottom">
     <slot />
   </van-popup>
 </template>

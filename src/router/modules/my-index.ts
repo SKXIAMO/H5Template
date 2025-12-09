@@ -46,5 +46,21 @@ export default [
       title: 'My diamonds' // 我的金币
     },
     component: () => import('@/pages/my-modules/gold-coin.vue')
+  },
+  {
+    path: '/privacy-agreement',
+    name: 'PrivacyAgreement',
+    meta: {
+      title: 'Privacy Agreement'
+    },
+    component: () => import('@/pages/my-modules/privacy-agreement.vue')
+  },
+  {
+    path: '/user-agreement',
+    name: 'UserAgreement',
+    meta: {
+      title: 'User Agreement'
+    },
+    component: () => import('@/pages/my-modules/user-agreement.vue')
   }
 ]

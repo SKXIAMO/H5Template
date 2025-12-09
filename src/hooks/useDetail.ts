@@ -1,13 +1,17 @@
 import { useUserStore } from '@/stores'
 import { useJump } from './useJump'
+import { useWindow } from './useWindow'
+
+/** 对应详情的用户 id */
+export const detailId = ref('')
 
 /** 动态详情信息获取 */
 export const useDetail = () => {
-  const { queryId } = useJump()
+  const { queryId, appParams } = useJump()
   const { userInfo } = useUserStore()
+  const { winCommentData } = useWindow()
 
-  const commentJsonList: CommentInfo[] = window?.commentJson ?? []
-  const paramsList = ref<CommentInfo[]>(commentJsonList)
+  const paramsList = ref<CommentInfo[]>(winCommentData)
 
   /** 动态信息 */
   const dynamicInfo = ref<DynamicInfo>()
@@ -23,6 +27,7 @@ export const useDetail = () => {
     const userMap = new Map(userList.map(u => [u.userId, u]))
 
     const infoData = dynamicList.find(v => v.dynamicId === queryId.value)
+    detailId.value = infoData?.userId
 
     const user = infoData ? userMap.get(infoData.userId) : null
     dynamicInfo.value = {
@@ -33,7 +38,7 @@ export const useDetail = () => {
 
     const blockSet = new Set(userInfo?.blockList || [])
 
-    commentList.value = commentJsonList.reduce((acc, v) => {
+    commentList.value = winCommentData.reduce((acc, v) => {
       // 筛选动态id
       if (v.dynamicId !== queryId.value) return acc
       // 筛选被屏蔽用户
@@ -51,8 +56,12 @@ export const useDetail = () => {
     loding.value = false
   }
 
-  /** 发送功能 */
-  const onSend = (v: string) => {
+  /**
+   * 发送功能
+   * @param v 内容
+   * @param type 0:图片 1:视频
+   */
+  const onSend = (v: string, state: 0 | 1 = 0) => {
     if (v) {
       const id = Date.now()
       const item: CommentInfo = {
@@ -65,7 +74,8 @@ export const useDetail = () => {
       }
       commentList.value.unshift(item)
       paramsList.value.unshift(item)
-      window.flutter_inappwebview.callHandler('updateUser', paramsList.value)
+
+      appParams({ key: 'updateComment', value: paramsList.value, state })
     }
   }
 

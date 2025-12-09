@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { detailId } from '@/hooks/useDetail'
+import { useJump } from '@/hooks/useJump'
+import { useWindow } from '@/hooks/useWindow'
+import { useUserStore } from '@/stores'
+
 const router = useRouter()
 const show = defineModel<boolean>('show', {
   type: Boolean,
@@ -6,10 +11,30 @@ const show = defineModel<boolean>('show', {
   default: false
 })
 
+const { winUserListData } = useWindow()
+const { userInfo } = useUserStore()
+const { appParams } = useJump()
+
+const allUserList = ref<UserInfo[]>(winUserListData)
+
 const onReport = () => {
   router.push('/report-index').then(() => {
     show.value = false
   })
+}
+
+const onShield = () => {
+  const userInfoId = detailId.value
+  userInfo.blockList.push(userInfoId)
+  userInfo.blockList = Array.from(new Set(userInfo.blockList))
+  allUserList.value.forEach(v => {
+    if (v.userId === userInfo.userId) {
+      v.blockList = userInfo.blockList
+    }
+  })
+
+  appParams({ key: 'updateUser', value: allUserList.value, state: 0 })
+  show.value = false
 }
 </script>
 
@@ -20,7 +45,7 @@ const onReport = () => {
         <p ai-default-btn @click="onReport">Report</p>
       </li>
       <li>
-        <p ai-default-btn>Shield</p>
+        <p ai-default-btn @click="onShield">Shield</p>
       </li>
       <li>
         <p ai-default-btn ai-selected-btn @click="show = false">Cancel</p>

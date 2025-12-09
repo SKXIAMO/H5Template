@@ -1,38 +1,64 @@
 <script setup lang="ts">
 import Head from '@/assets/public/Head.png'
+
+const listData = defineModel<MessageInfo[]>('list', {
+  type: Array as PropType<MessageInfo[]>,
+  required: true,
+  default: () => []
+})
+
+const emit = defineEmits<{
+  send: [_: string]
+}>()
+
+const onSend = (v: string) => {
+  emit('send', v)
+}
 </script>
 
 <template>
-  <div text-red>
-    <div p-layout-padding class="list-box">
-      <div flex class="content">
-        <van-image round mr-3 ai-avatar :src="Head" fit="cover" class="user-head" />
-        <div class="user-chat">
-          <p ai-text-desc>
-            聊天聊天内容
-          </p>
+  <div>
+    <div v-for="(item, index) in listData" :key="index" px-layout-padding class="list-box">
+      <div v-if="item.position === 'left'">
+        <div flex class="content">
+          <van-image round mr-3 ai-avatar :src="item.avator || Head" fit="cover" class="user-head" />
+          <div v-if="item.sendContent" class="user-chat">
+            <p ai-text-desc>
+              {{ item.sendContent }}
+            </p>
+          </div>
         </div>
+        <van-image v-if="item.sendPicUrl" mr-3 rounded-xl h-48 w-48 :src="item.sendPicUrl" fit="cover"
+          class="mt-4 !rounded-xl !overflow-hidden"
+/>
       </div>
-      <div flex justify-end class="content">
-        <div class="user-chat">
-          <p ai-text-desc class="send-box">
-            聊天聊天内容
-          </p>
+
+      <div v-if="item.position === 'right'">
+        <div flex justify-end class="content">
+          <div v-if="item.sendContent" class="user-chat">
+            <p ai-text-desc class="send-box">
+              {{ item.sendContent }}
+            </p>
+          </div>
+          <van-image round ml-3 ai-avatar :src="item.avator || Head" fit="cover" class="user-head" />
         </div>
-        <van-image round ml-3 ai-avatar :src="Head" fit="cover" class="user-head" />
+        <div v-if="item.sendPicUrl" flex justify-end>
+          <van-image mr-3 h-48 w-48 :src="item.sendPicUrl" fit="cover" class="mt-4 !rounded-xl !overflow-hidden" />
+        </div>
       </div>
     </div>
-    <input-box />
+    <input-box @send="onSend" />
   </div>
 </template>
 
 <style lang="less" scoped>
 .list-box {
-  padding-bottom: 70px;
+  padding-top: 16px;
 
   .content+.content {
     margin-top: 40px;
   }
+
 }
 
 .user-head {

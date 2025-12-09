@@ -1,21 +1,41 @@
 <script setup lang=ts>
+import type { AppCommunication } from '@/hooks/useJump'
 import RightIcon from '@/assets/public/right-icon.png'
+import { useJump } from '@/hooks/useJump'
 
 defineOptions({
   name: 'SetupPage'
 })
+
+const { appParams, jumpToUserAgreement, jumpToBlackList } = useJump()
 
 const listData = [
   { label: 'Privacy Agreement', value: '0' },
   { label: 'User Agreement', value: '1' },
   { label: 'Blacklist', value: '2' }
 ]
+
+const onState = (key: AppCommunication) => {
+  appParams({ key, state: 2 })
+}
+
+const onSelect = (value: string) => {
+  if (value === '2') {
+    jumpToBlackList()
+  }
+  if (value === '0') {
+    jumpToUserAgreement('/privacy-agreement')
+  }
+  if (value === '1') {
+    jumpToUserAgreement('/user-agreement')
+  }
+}
 </script>
 
 <template>
   <div class="setup-page_box">
     <ul p-layout-padding class="list-btn">
-      <li v-for="item in listData" :key="item.value">
+      <li v-for="item in listData" :key="item.value" @click="onSelect(item.value)">
         <span>{{ item.label }}</span>
         <van-image h-3 w-4 :src="RightIcon" fit="cover" />
       </li>
@@ -24,10 +44,10 @@ const listData = [
     <!-- 按钮 -->
     <ul mt-60>
       <li flex justify-center>
-        <p ai-gradient-btn class="bottom-btn">Delete account</p>
+        <p ai-gradient-btn class="bottom-btn" @click="onState('deleteaccount')">Delete account</p>
       </li>
       <li mt-5 flex justify-center>
-        <p ai-gradient-btn class="bottom-btn">Log out</p>
+        <p ai-gradient-btn class="bottom-btn" @click="onState('logout')">Log out</p>
       </li>
     </ul>
   </div>

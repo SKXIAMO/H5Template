@@ -103,6 +103,63 @@ interface CommentInfo {
   createTime?: string
 }
 
+/** 聊天机器人 */
+interface ChatBotInfo {
+  title: string
+  content: string
+  points: number
+}
+
+/** 聊天详情类型 */
+interface ChatInfo {
+  /** 聊天 id */
+  chatId: string
+  /** 聊天用户ID列表 通过用户ID查询用户信息 */
+  chatUserIds: string[]
+  /** 最后发送的消息内容 */
+  lastSendContent: string
+  /** 最后发送消息的时间 */
+  lastSendTime?: string
+  /** 未读消息数量 */
+  unreadMsgCount?: number
+  /** 最后发送消息的用户ID */
+  lastSendUserId?: string
+}
+
+/** 消息类型 */
+interface MessageInfo {
+  /** 消息 id */
+  msgId: string
+  /** 聊天 id */
+  chatId: string
+  /** 用户 id */
+  userId: string
+  /** 用户名称 */
+  name?: string
+  /** 用户头像 */
+  avator?: string
+  /** 显示位置 */
+  position?: 'left' | 'right'
+  /** 内容 */
+  sendContent: string
+  /** 发送图片URL */
+  sendPicUrl: string
+  /** 发送时间 */
+  sendTime?: string
+}
+
+/** 金币类型 */
+interface CoinInfo {
+  key: string
+  cions: number
+  meney: number
+}
+
+/** 举报选项属性 */
+interface ReportInfo {
+  reportContext: string
+}
+
 interface Window {
   /** 与 app 通信 */
   flutter_inappwebview: any
@@ -291,4 +348,16 @@ interface Window {
   commentJson: CommentInfo[]
   /** 所有用户数据列表 */
   userListJson: UserInfo[]
+  /** 聊天机器人 */
+  chatBotDesc: ChatBotInfo
+  /** 聊天列表 */
+  chatListJson: ChatInfo[]
+  /** 消息表 */
+  messageListJson: MessageInfo[]
+  /** 金币选项 */
+  coinListJson: CoinInfo[]
+  privacyAgreementJson: string
+  userAgreementJson: string
+  /** 举报选项 */
+  reportListJson: ReportInfo[]
 }

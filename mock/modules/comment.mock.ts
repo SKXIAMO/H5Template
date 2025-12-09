@@ -17,5 +17,11 @@ export default [
     commentId: 'c1',
     userId: 'u24',
     content: '这是一段描述'
+  },
+  {
+    dynamicId: '2',
+    commentId: 'c1',
+    userId: 'u24',
+    content: '这是一22段描述'
   }
 ] as CommentInfo[]

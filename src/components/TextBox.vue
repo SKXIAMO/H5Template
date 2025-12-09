@@ -1,5 +1,9 @@
 <script setup lang="ts">
-const message = ref('')
+const message = defineModel<string>({
+  type: String,
+  required: true,
+  default: ''
+})
 
 const props = withDefaults(defineProps<{
   maxlength?: string | number
@@ -15,7 +19,7 @@ const props = withDefaults(defineProps<{
 <template>
   <div class="text-box">
     <van-field v-model="message" :rows="props.rows" type="textarea" :maxlength="props.maxlength"
-      placeholder="Please enter" show-word-limit
+               placeholder="Please enter" show-word-limit
 />
     <!-- :style="{ background: props.bg }" -->
   </div>
