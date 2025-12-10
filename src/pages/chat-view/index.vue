@@ -32,7 +32,7 @@ const onSubmit = () => {
       }
       return v
     })
-    appParams({ key: 'updateUser', value: list, state: 0 })
+    appParams({ key: 'updateUser', value: list, state: 1 })
     jumpToChatDetail()
   }
 }
