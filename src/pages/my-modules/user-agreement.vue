@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useWindow } from '@/hooks/useWindow'
+  import { useWindow } from '@/hooks/useWindow'
 
-defineOptions({
-  name: 'UserAgreement'
-})
+  defineOptions({
+    name: 'UserAgreement'
+  })
 
-const { winUserAgreement } = useWindow()
+  const { winUserAgreement } = useWindow()
 </script>
 
 <template>
@@ -15,10 +15,12 @@ const { winUserAgreement } = useWindow()
 </template>
 
 <style lang="less" scoped>
-.follow_box {
-  color: #fff;
-  padding-top: var(--van-nav-bar-height);
-  min-height: 100vh;
-  background: var(--ai-follow-bg-color);
-}
+  .follow_box {
+    color: #fff;
+    padding-top: calc(
+      var(--van-nav-bar-height) + var(--ai-view-padding-top)
+    );
+    min-height: 100vh;
+    background: var(--ai-follow-bg-color);
+  }
 </style>

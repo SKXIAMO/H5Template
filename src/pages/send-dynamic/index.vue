@@ -93,7 +93,9 @@
 
 <style lang="less" scoped>
   .send-dynamic_box {
-    padding-top: var(--van-nav-bar-height);
+    padding-top: calc(
+      var(--van-nav-bar-height) + var(--ai-view-padding-top)
+    );
     background: var(--ai-send-dynamic-bg-color);
     min-height: 100vh;
   }

@@ -4,6 +4,7 @@
   import Head from '@/assets/public/Head.png'
   import ImgIcon from '@/assets/public/img-icon.png'
   import VideoIcon from '@/assets/public/video-icon.png'
+  import { detailId } from '@/hooks/useDetail'
   import { useFile } from '@/hooks/useFile'
   import { useJump } from '@/hooks/useJump'
   import { useWindow } from '@/hooks/useWindow'
@@ -29,6 +30,8 @@
   const sendCount = ref(0)
   const chatListData = ref<ChatInfo[]>(winChatListData)
   const loading = ref(true)
+  // 举报弹框
+  const isReport = ref(false)
 
   const getData = () => {
     const { chatUserIds } = winChatListData.find(
@@ -145,13 +148,25 @@
           w-6
           @click="jumpToCall(viewInfo.userId, queryId)"
         />
-        <van-image :src="RightMore" h-6 w-6 />
+        <van-image
+          :src="RightMore"
+          h-6
+          w-6
+          @click="
+            () => {
+              detailId = viewInfo.userId
+              isReport = true
+            }
+          "
+        />
       </template>
     </VanNavBar>
 
     <div>
       <chat-list v-model:list="listData" @send="v => onSend(v)" />
     </div>
+
+    <report-box v-model:show="isReport" />
   </div>
 </template>
 

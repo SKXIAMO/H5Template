@@ -79,7 +79,9 @@
 <style lang="less" scoped>
   .publish-video_box {
     min-height: 100vh;
-    padding-top: var(--van-nav-bar-height);
+    padding-top: calc(
+      var(--van-nav-bar-height) + var(--ai-view-padding-top)
+    );
     background: var(--ai-publish-video-bg-color);
   }
 </style>

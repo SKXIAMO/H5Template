@@ -67,7 +67,9 @@
 
 <style lang="less" scoped>
   .report-index_box {
-    padding-top: var(--van-nav-bar-height);
+    padding-top: calc(
+      var(--van-nav-bar-height) + var(--ai-view-padding-top)
+    );
     min-height: 100vh;
     background: var(--ai-report-index-bg-color);
   }

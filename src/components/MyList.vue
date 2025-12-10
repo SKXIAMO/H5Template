@@ -4,9 +4,10 @@
   import { useWindow } from '@/hooks/useWindow'
 
   const { winUserListData } = useWindow()
-  const { queryId } = useJump()
+  const { queryId, appParams } = useJump()
 
   const listData = ref<UserInfo[]>([])
+  const allListUser = ref<UserInfo[]>(winUserListData)
 
   const props = withDefaults(
     defineProps<{
@@ -33,14 +34,33 @@
     }
   })
 
+  const itemUser = ref<UserInfo>(null)
   const getData = () => {
     const item = winUserListData.find(v => v.userId === queryId.value)
     const list =
       item[props.type === 'blackList' ? 'blockList' : props.type]
 
     listData.value = winUserListData.filter(v => list.includes(v.userId))
+    itemUser.value = item
+  }
 
-    console.log(listData.value, '====')
+  const onClick = (id: string, index: number) => {
+    const keyData = {
+      follow: 'follow',
+      fans: 'fans',
+      blackList: 'blockList'
+    }[props.type]
+
+    itemUser.value[keyData] = itemUser.value[keyData].filter(
+      (v: string) => v !== id
+    )
+    listData.value.splice(index, 1)
+    allListUser.value.forEach(v => {
+      if (v.userId === itemUser.value.userId) {
+        v[keyData] = itemUser.value[keyData]
+      }
+    })
+    appParams({ key: 'updateUser', value: allListUser.value, state: 1 })
   }
 
   onMounted(() => {
@@ -74,7 +94,11 @@
           <span ai-text-desc>{{ item.about }}</span>
         </li>
       </ul>
-      <van-icon color="#fff" :name="rightIcon" />
+      <van-icon
+        color="#fff"
+        :name="rightIcon"
+        @click="onClick(item.userId, index)"
+      />
     </div>
   </div>
 </template>

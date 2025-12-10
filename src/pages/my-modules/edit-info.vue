@@ -94,7 +94,9 @@
 
 <style lang="less" scoped>
   .edit-info_box {
-    padding-top: var(--van-nav-bar-height);
+    padding-top: calc(
+      var(--van-nav-bar-height) + var(--ai-view-padding-top)
+    );
     min-height: 100vh;
     background: var(--ai-edit-bg-color);
   }

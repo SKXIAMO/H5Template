@@ -1,7 +1,7 @@
 <script setup lang="ts">
-defineOptions({
-  name: 'BlackList'
-})
+  defineOptions({
+    name: 'BlackList'
+  })
 </script>
 
 <template>
@@ -11,9 +11,11 @@ defineOptions({
 </template>
 
 <style lang="less" scoped>
-.black-list_box {
-  padding-top: var(--van-nav-bar-height);
-  min-height: 100vh;
-  background: var(--ai-black-list-bg-color);
-}
+  .black-list_box {
+    padding-top: calc(
+      var(--van-nav-bar-height) + var(--ai-view-padding-top)
+    );
+    min-height: 100vh;
+    background: var(--ai-black-list-bg-color);
+  }
 </style>
