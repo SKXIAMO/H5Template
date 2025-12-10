@@ -23,14 +23,26 @@ export const useJump = () => {
 
   const userList = ref<UserInfo[]>(winUserListData)
 
+  /** 接收路由参数 id */
+  const queryId = computed<string>(() => (route?.query?.id as string) || 'u24')
+
   /**
    * 返回
    */
   const onBack = async () => {
+    if (route.query?.name === 'otherHome') {
+      router.replace({
+        path: '/other-home',
+        query: { id: route.query?.cid }
+      })
+      return
+    }
+
     if (route.query?.url) {
       router.replace(route.query.url as string)
       return
     }
+
     if (['ReportIndex'].includes(route.name)) {
       history.back()
     } else {
@@ -51,6 +63,22 @@ export const useJump = () => {
   const jumpToRecharge = () => {
     router.replace({
       path: '/gold-coin',
+      query: { url: 'chat-view' }
+    })
+  }
+
+  /** 跳转私聊 */
+  const jumpToPrivateChat = (id: string, cid: string) => {
+    router.replace({
+      path: '/private-chat',
+      query: { id, cid, name: 'otherHome', url: 'other-home' }
+    })
+  }
+
+  /** 进入聊天详情 */
+  const jumpToChatDetail = () => {
+    router.replace({
+      path: '/chat-details',
       query: { url: 'chat-view' }
     })
   }
@@ -103,9 +131,6 @@ export const useJump = () => {
     })
   }
 
-  /** 接收路由参数 id */
-  const queryId = computed<string>(() => (route?.query?.id as string) || '2')
-
   /**
    * 传给 app 参数
    */
@@ -144,6 +169,8 @@ export const useJump = () => {
     jumpToDetail,
     jumpToFans,
     jumpToCall,
+    jumpToChatDetail,
+    jumpToPrivateChat,
     queryId
   }
 }

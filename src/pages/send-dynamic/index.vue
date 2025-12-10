@@ -34,6 +34,10 @@
     if (formData.dynamicPic.length === 0) {
       return showToast('Please upload at least one picture')
     }
+    if (formData.dynamicPic[0].status === 'uploading') {
+      return showToast('Please wait for the picture to upload')
+    }
+
     const data = {
       ...formData,
       dynamicTag: [],

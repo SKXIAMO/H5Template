@@ -29,6 +29,9 @@
     if (formData.dynamicPic.length === 0) {
       return showToast('Please upload the video')
     }
+    if (formData.dynamicPic[0].status === 'uploading') {
+      return showToast('Please wait for the video to upload')
+    }
 
     const data = {
       ...formData,

@@ -29,7 +29,7 @@
 
 <template>
   <div safe-area-inset-top px-layout-padding class="report-index_box">
-    <ul class="top-select">
+    <ul safe-area-inset-top report-index_box class="top-select">
       <li
         v-for="(item, index) in winReportListData"
         :key="index"
@@ -52,7 +52,6 @@
         </p>
       </li>
     </ul>
-
     <!-- 输入框 -->
     <div mt-6>
       <div ai-input-title>Supplementary description</div>

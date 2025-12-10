@@ -4,6 +4,7 @@
   import { detailId } from '@/hooks/useDetail'
   import { useJump } from '@/hooks/useJump'
   import { useWindow } from '@/hooks/useWindow'
+  import { useUserStore } from '@/stores'
 
   defineOptions({
     name: 'other-home'
@@ -15,14 +16,20 @@
     otherHomeMessageIcon,
     otherHomeLikeIcon
   } = useAppImgStyle()
-  const { queryId, jumpToDetail, jumpToFans } = useJump()
-  const { winUserListData, winDynamicData } = useWindow()
+  const { queryId, jumpToDetail, appParams, jumpToPrivateChat } =
+    useJump()
+  const { winUserListData, winDynamicData, winChatListData } = useWindow()
+  const useData = useUserStore()
 
   // 举报弹框
   const isReport = ref(false)
   const userInfo = ref<UserInfo>(null)
   const bottomList = ref<DynamicInfo[]>([])
   const loading = ref(true)
+  /** 是否显示关注 */
+  const isShowFollow = ref(false)
+  const allUserList = ref<UserInfo[]>(winUserListData)
+  const chatListData = ref<ChatInfo[]>(winChatListData)
 
   const getData = () => {
     userInfo.value = winUserListData.find(v => v.userId === queryId.value)
@@ -32,7 +39,9 @@
     bottomList.value = winDynamicData.filter(
       v => v.userId === userInfo.value.userId
     )
-
+    isShowFollow.value = useData.userInfo.follow.includes(
+      userInfo.value.userId
+    )
     loading.value = false
   }
 
@@ -40,8 +49,57 @@
     jumpToDetail(item.dynamicId, item.dynamicType)
   }
 
-  const onToFans = (type: 0 | 1) => {
-    jumpToFans(userInfo.value.userId, type)
+  const onFollow = () => {
+    useData.userInfo.follow.push(userInfo.value.userId)
+    allUserList.value.forEach(v => {
+      if (v.userId === useData.userInfo.userId) {
+        v.follow = useData.userInfo.follow
+      }
+    })
+    isShowFollow.value = true
+    appParams({ key: 'updateUser', value: allUserList.value, state: 1 })
+  }
+
+  const getCurrentDateTime = (): string => {
+    const now = new Date()
+    const year = now.getFullYear()
+    const month = String(now.getMonth() + 1).padStart(2, '0') // getMonth() 是 0-11
+    const day = String(now.getDate()).padStart(2, '0')
+    const hours = String(now.getHours()).padStart(2, '0')
+    const minutes = String(now.getMinutes()).padStart(2, '0')
+    const seconds = String(now.getSeconds()).padStart(2, '0')
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+  }
+
+  const onAddChat = () => {
+    const chatItem = winChatListData.find(v => {
+      return (
+        v.chatUserIds.includes(userInfo.value.userId) &&
+        v.chatUserIds.includes(useData.userInfo.userId)
+      )
+    })
+    if (chatItem) {
+      jumpToPrivateChat(chatItem.chatId, queryId.value)
+    } else {
+      // 时间戳
+      const item: ChatInfo = {
+        chatId: `${Date.now()}_chatId`,
+        chatUserIds: [userInfo.value.userId, useData.userInfo.userId],
+        lastSendContent: '',
+        lastSendTime: getCurrentDateTime(),
+        unreadMsgCount: 0,
+        lastSendUserId: useData.userInfo.userId
+      }
+      window?.chatListJson.push(item)
+      chatListData.value.push(item)
+      appParams({
+        key: 'uploadChat',
+        value: chatListData.value,
+        state: 1
+      })
+      jumpToPrivateChat(item.chatId, queryId.value)
+    }
   }
 
   onMounted(() => {
@@ -62,12 +120,14 @@
         />
         <div h-2 w-20 relative>
           <van-image
+            v-if="!isShowFollow"
             round
             bottom-2
             left-14
             absolute
             :src="otherHomeAddIcon"
             fit="cover"
+            @click="onFollow"
           />
         </div>
         <span mt-1 ai-user-name>{{ userInfo.name }}</span>
@@ -77,11 +137,11 @@
           <span>{{ bottomList.length }}</span>
           <span>Posts</span>
         </li>
-        <li @click="onToFans(0)">
+        <li>
           <span>{{ userInfo.fans.length }}</span>
           <span>Fans</span>
         </li>
-        <li @click="onToFans(1)">
+        <li>
           <span>{{ userInfo.follow.length }}</span>
           <span>Follow</span>
         </li>
@@ -90,7 +150,9 @@
         <li>{{ userInfo.about }}</li>
         <li>
           <van-image :src="otherHomeMessageIcon" class="icon-box" />
-          <span ml-3 class="public-number !mt-0">Chat</span>
+          <span ml-3 class="public-number !mt-0" @click="onAddChat">
+            Chat
+          </span>
         </li>
       </ul>
     </div>

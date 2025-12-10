@@ -28,22 +28,23 @@
 
   onMounted(() => {
     getData()
-    setTimeout(() => {
-      onBack()
-    }, 5000)
   })
 </script>
 
 <template>
   <div class="call-box">
     <div v-if="!loading" flex flex-col justify-center items-center>
-      <van-image
-        round
-        ai-avatar
-        :src="userData.avator || Head"
-        fit="cover"
-        class="mt-[20vh] !h-20 !w-20"
-      />
+      <div flex flex-col justify-center items-center>
+        <van-image
+          round
+          ai-avatar
+          :src="userData.avator || Head"
+          fit="cover"
+          class="mt-[14vh] !h-20 !w-20"
+        />
+        <span ai-user-name my-4>{{ userData.name }}</span>
+        <span ai-text-desc>Calling...</span>
+      </div>
       <p
         ai-gradient-btn
         class="mt-[26vh] !rounded-full !flex !justify-center !items-center !h-16 !w-16"
@@ -64,7 +65,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: red;
     // 导入背景图
     background: url('@/assets/public/call-bg.png');
     background-size: cover;

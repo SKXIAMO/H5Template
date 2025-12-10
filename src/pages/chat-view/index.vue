@@ -13,7 +13,7 @@ defineOptions({
 const { chatBtnIcon, chatBgImage } = useAppImgStyle()
 const { winUserData, winUserListData, winChatBotDesc } = useWindow()
 const { userInfo } = useUserStore()
-const { jumpToRecharge, appParams } = useJump()
+const { jumpToRecharge, appParams, jumpToChatDetail } = useJump()
 
 /** 弹框  */
 const show = ref(false)
@@ -33,6 +33,7 @@ const onSubmit = () => {
       return v
     })
     appParams({ key: 'updateUser', value: list, state: 0 })
+    jumpToChatDetail()
   }
 }
 </script>
