@@ -50,7 +50,7 @@ const onSubmit = () => {
 </script>
 
 <template>
-  <div px-layout-padding class="send-dynamic_box">
+  <div safe-area-inset-top px-layout-padding class="send-dynamic_box">
     <!-- 输入框 -->
     <text-box v-model="formData.dynamicDesc" />
 

@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-  <div class="follow_box">
+  <div safe-area-inset-top class="follow_box">
     <my-list />
   </div>
 </template>

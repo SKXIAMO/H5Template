@@ -1,49 +1,91 @@
-<script setup lang=ts>
-import Head from '@/assets/public/Head.png'
-import { useAppImgStyle } from '@/hooks/useAppImgStyle'
-import { useDetail } from '@/hooks/useDetail'
+<script setup lang="ts">
+  import Head from '@/assets/public/Head.png'
+  import { useAppImgStyle } from '@/hooks/useAppImgStyle'
+  import { useDetail } from '@/hooks/useDetail'
 
-defineOptions({
-  name: 'ShortVideo'
-})
+  defineOptions({
+    name: 'ShortVideo'
+  })
 
-const { reportIcon, addIcon, messageIcon, likeIcon } = useAppImgStyle()
-const { loding, dynamicInfo, commentList, onSend } = useDetail()
+  const { reportIcon, addIcon, messageIcon, detailLikeIcon, likeIcon } =
+    useAppImgStyle()
+  const {
+    loding,
+    dynamicInfo,
+    commentList,
+    isVideoLike,
+    isFollow,
+    onFollow,
+    onSend,
+    onVideoLike
+  } = useDetail()
 
-const videoRef = ref(null)
-const isPlaying = ref(false)
-const isPopup = ref(false)
-// 举报弹框
-const isReport = ref(false)
+  const videoRef = ref(null)
+  const isPlaying = ref(false)
+  const isPopup = ref(false)
+  // 举报弹框
+  const isReport = ref(false)
 
-const togglePlay = async () => {
-  if (!videoRef.value) return
+  const togglePlay = async () => {
+    if (!videoRef.value) return
 
-  if (isPlaying.value) {
-    videoRef.value.pause()
-    isPlaying.value = false
-  } else {
-    try {
-      await videoRef.value.play()
-      isPlaying.value = true
-    } catch (error) {
-      console.warn('自动播放被阻止:', error)
+    if (isPlaying.value) {
+      videoRef.value.pause()
+
+      // videoRef.value.play().catch((err) => {
+      //   console.error('播放失败:', err)
+      // })
+
+      isPlaying.value = false
+    } else {
+      try {
+        await videoRef.value.play()
+        isPlaying.value = true
+      } catch (error) {
+        console.warn('自动播放被阻止:', error)
+      }
     }
   }
-}
 </script>
 
 <template>
   <div v-if="!loding" class="video-box">
-    <video ref="videoRef" :src="dynamicInfo?.dynamicVideo" width="100%" height="100%" @click="togglePlay" />
-    <van-icon v-if="!isPlaying" :name="isPlaying ? 'pause-circle' : 'play-circle'" class="play-box"
+    <video
+      ref="videoRef"
+      :src="dynamicInfo?.dynamicVideo"
+      webkit-playsinline
+      playsinline
+      x5-playsinline
+      width="100%"
+      height="100%"
       @click="togglePlay"
-/>
+    />
+    <van-icon
+      v-if="!isPlaying"
+      :name="isPlaying ? 'pause-circle' : 'play-circle'"
+      class="play-box"
+      @click="togglePlay"
+    />
     <div p-layout-padding class="bottom-box">
       <div mb-5 flex>
         <div h-12 w-12 relative>
-          <van-image round ai-avatar :src="dynamicInfo?.avator || Head" fit="cover" class="user-head" />
-          <van-image round right-3.3 top-9.5 absolute :src="addIcon" fit="cover" />
+          <van-image
+            round
+            ai-avatar
+            :src="dynamicInfo?.avator || Head"
+            fit="cover"
+            class="user-head"
+          />
+          <van-image
+            v-if="!isFollow"
+            round
+            right-3
+            top-9.5
+            absolute
+            :src="addIcon"
+            fit="cover"
+            @click="onFollow"
+          />
         </div>
         <ul ml-3 shrink w-full>
           <li flex justify-between>
@@ -60,11 +102,19 @@ const togglePlay = async () => {
       <ul class="bottom-btn">
         <li @click="isPopup = true">
           <van-image :src="messageIcon" class="icon-box" />
-          <span class="public-number">{{ dynamicInfo?.dynamicCommentCount }}</span>
+          <span class="public-number">
+            {{ dynamicInfo?.dynamicCommentCount }}
+          </span>
         </li>
         <li>
-          <van-image :src="likeIcon" class="icon-box" />
-          <span class="public-number">{{ dynamicInfo?.dynamicLikeCount }}</span>
+          <van-image
+            :src="isVideoLike ? likeIcon : detailLikeIcon"
+            class="icon-box"
+            @click="onVideoLike"
+          />
+          <span class="public-number">
+            {{ dynamicInfo?.dynamicLikeCount }}
+          </span>
         </li>
       </ul>
     </div>
@@ -75,74 +125,74 @@ const togglePlay = async () => {
         <div class="h-[56vh] overflow-y-auto">
           <comment-card :list="commentList" pb-16 />
         </div>
-        <input-box @send="(v) => onSend(v, 1)" />
+        <input-box @send="v => onSend(v, 1)" />
       </div>
     </popup-box>
 
-     <report-box v-model:show="isReport" />
+    <report-box v-model:show="isReport" />
   </div>
 </template>
 
 <style lang="less" scoped>
-.video-box {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-
-  video {
+  .video-box {
     width: 100%;
-    height: 100%;
-    background: var(--ai-short-video-bg-color);
-  }
+    height: 100vh;
+    position: relative;
 
-  .play-box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 64px;
-    color: rgba(255, 255, 255, 0.7);
-  }
+    video {
+      width: 100%;
+      height: 100%;
+      background: var(--ai-short-video-bg-color);
+    }
 
-  .bottom-box {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    // background: linear-gradient(180deg, rgba(14, 8, 15, 0.8) 0%, rgba(14, 8, 15, 0) 100%);
-  }
+    .play-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 64px;
+      color: rgba(255, 255, 255, 0.7);
+    }
 
-  .user-head {
-    width: var(--ai-short-video-avatar-width);
-    height: var(--ai-short-video-avatar-height);
-  }
+    .bottom-box {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      // background: linear-gradient(180deg, rgba(14, 8, 15, 0.8) 0%, rgba(14, 8, 15, 0) 100%);
+    }
 
-  .bottom-btn {
-    display: flex;
-    justify-content: space-between;
+    .user-head {
+      width: var(--ai-short-video-avatar-width);
+      height: var(--ai-short-video-avatar-height);
+    }
 
-    li {
-      position: relative;
-      width: var(--ai-short-video-bottom-btn-width);
-      height: var(--ai-short-video-bottom-btn-height);
-      border-radius: var(--ai-short-video-bottom-btn-border-radius);
-      background: var(--ai-short-video-bottom-btn-bg-color);
+    .bottom-btn {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      justify-content: space-between;
 
-      .icon-box {
-        position: absolute;
-        bottom: 26px;
-        z-index: 1;
-      }
+      li {
+        position: relative;
+        width: var(--ai-short-video-bottom-btn-width);
+        height: var(--ai-short-video-bottom-btn-height);
+        border-radius: var(--ai-short-video-bottom-btn-border-radius);
+        background: var(--ai-short-video-bottom-btn-bg-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
 
-      .public-number {
-        font-size: 20px !important;
-        margin-top: 22px;
+        .icon-box {
+          position: absolute;
+          bottom: 26px;
+          z-index: 1;
+        }
+
+        .public-number {
+          font-size: 20px !important;
+          margin-top: 22px;
+        }
       }
     }
   }
-}
 </style>

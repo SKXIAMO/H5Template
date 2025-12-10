@@ -10,6 +10,6 @@ export default {
   follow: [],
   fans: [],
   blockList: ['u24'],
-  picPostLikeIds: [],
-  videoPostLikeIds: []
+  picPostLikeIds: ['1'],
+  videoPostLikeIds: ['1']
 } as UserInfo

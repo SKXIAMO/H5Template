@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-  <div class="fans_box">
+  <div safe-area-inset-top class="fans_box">
     <my-list type="fans" />
   </div>
 </template>

@@ -64,7 +64,6 @@ export default antfu(
       'style/arrow-parens': 'off',
       'style/indent': 'off',
       'arrow-spacing': [2, { before: true, after: true }],
-      'format/prettier': 'off',
       'style/operator-linebreak': 'off',
       'ts/consistent-type-definitions': 'off',
       'sort-imports': 'off',
@@ -74,7 +73,10 @@ export default antfu(
       'vue/operator-linebreak': 'off',
       'vue/html-indent': 'off',
       'style/indent-binary-ops': 'off',
-      'antfu/consistent-list-newline': 'off'
+      'antfu/consistent-list-newline': 'off',
+      'format/prettier': 'off',
+      'unocss/order': 'off',
+      'unocss/order-attributify': 'off'
     }
   }
 )

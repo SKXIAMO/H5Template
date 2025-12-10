@@ -33,7 +33,7 @@ const onSelect = (value: string) => {
 </script>
 
 <template>
-  <div class="setup-page_box">
+  <div safe-area-inset-top class="setup-page_box">
     <ul p-layout-padding class="list-btn">
       <li v-for="item in listData" :key="item.value" @click="onSelect(item.value)">
         <span>{{ item.label }}</span>

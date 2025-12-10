@@ -9,7 +9,7 @@ const { winPrivacyAgreement } = useWindow()
 </script>
 
 <template>
-  <div p-layout-padding class="follow_box">
+  <div safe-area-inset-top p-layout-padding class="follow_box">
     <p>{{ winPrivacyAgreement }}</p>
   </div>
 </template>

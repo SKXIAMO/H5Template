@@ -9,14 +9,25 @@ export const detailId = ref('')
 export const useDetail = () => {
   const { queryId, appParams } = useJump()
   const { userInfo } = useUserStore()
-  const { winCommentData } = useWindow()
+  const { winCommentData, winDynamicData, winUserListData } = useWindow()
 
   const paramsList = ref<CommentInfo[]>(winCommentData)
+
+  const allUserListData = ref<UserInfo[]>(winUserListData)
+
+  const dynamicListData = ref<DynamicInfo[]>(winDynamicData)
 
   /** 动态信息 */
   const dynamicInfo = ref<DynamicInfo>()
   /** 评论列表 */
   const commentList = ref<CommentInfo[]>([])
+  /** 点赞状态 */
+  const isLike = ref(false)
+  /** 是否可以关注 */
+  const isFollow = ref(false)
+
+  /** 视频点赞 */
+  const isVideoLike = ref(false)
 
   const loding = ref(true)
 
@@ -30,11 +41,15 @@ export const useDetail = () => {
     detailId.value = infoData?.userId
 
     const user = infoData ? userMap.get(infoData.userId) : null
+
     dynamicInfo.value = {
       ...(infoData),
       name: user?.name ?? '',
       avator: user?.avator ?? ''
     }
+    isLike.value = userInfo?.picPostLikeIds?.includes(queryId.value)
+    isVideoLike.value = userInfo?.videoPostLikeIds?.includes(queryId.value)
+    isFollow.value = userInfo?.follow.includes(infoData?.userId)
 
     const blockSet = new Set(userInfo?.blockList || [])
 
@@ -79,9 +94,67 @@ export const useDetail = () => {
     }
   }
 
+  /**
+   * 点赞
+   */
+  const onLike = () => {
+    if (isLike.value) {
+      userInfo.picPostLikeIds = userInfo.picPostLikeIds.filter(v => v !== queryId.value)
+      dynamicInfo.value.dynamicLikeCount -= 1
+      isLike.value = false
+    } else {
+      userInfo.picPostLikeIds.push(queryId.value)
+      dynamicInfo.value.dynamicLikeCount += 1
+      isLike.value = true
+    }
+
+    dynamicListData.value.forEach(v => {
+      if (v.dynamicId === queryId.value) {
+        v.dynamicLikeCount = dynamicInfo.value.dynamicLikeCount
+      }
+    })
+    appParams({ key: 'updatePost', value: dynamicListData.value, state: 1 })
+  }
+
+  /** 视频点赞 */
+  const onVideoLike = () => {
+    if (isVideoLike.value) {
+      userInfo.videoPostLikeIds = userInfo.videoPostLikeIds.filter(v => v !== queryId.value)
+      dynamicInfo.value.dynamicLikeCount -= 1
+      isVideoLike.value = false
+    } else {
+      userInfo.videoPostLikeIds.push(queryId.value)
+      dynamicInfo.value.dynamicLikeCount += 1
+      isVideoLike.value = true
+    }
+
+    dynamicListData.value.forEach(v => {
+      if (v.dynamicId === queryId.value) {
+        v.dynamicLikeCount = dynamicInfo.value.dynamicLikeCount
+      }
+    })
+    appParams({ key: 'updatePost', value: dynamicListData.value, state: 1 })
+  }
+
+  /** 点击关注 */
+  const onFollow = () => {
+    if (userInfo.userId !== dynamicInfo.value.userId) {
+      if (!userInfo.follow.includes(dynamicInfo.value.userId)) {
+        userInfo.follow.push(dynamicInfo.value.userId)
+        allUserListData.value.forEach(v => {
+          if (v.userId === userInfo.userId) {
+            v.follow = userInfo.follow
+          }
+        })
+        isFollow.value = true
+        appParams({ key: 'updateUser', value: allUserListData.value, state: 1 })
+      }
+    }
+  }
+
   onMounted(() => {
     getData()
   })
 
-  return { loding, dynamicInfo, commentList, onSend }
+  return { loding, dynamicInfo, commentList, isLike, isVideoLike, isFollow, onFollow, onLike, onSend, onVideoLike }
 }

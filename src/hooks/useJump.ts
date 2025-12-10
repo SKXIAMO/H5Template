@@ -1,4 +1,5 @@
 import { useUserStore } from '@/stores'
+import { useWindow } from './useWindow'
 
 /**
  * app 通信值
@@ -15,9 +16,12 @@ export type AppCommunication = 'updateComment' | 'updateUser' | 'updatePost' | '
 
 /** 路由跳转 */
 export const useJump = () => {
+  const { winUserListData } = useWindow()
   const { userInfo } = useUserStore()
   const router = useRouter()
   const route = useRoute()
+
+  const userList = ref<UserInfo[]>(winUserListData)
 
   /**
    * 返回
@@ -67,8 +71,40 @@ export const useJump = () => {
     })
   }
 
+  /**
+   * 跳转详情页
+   * @param id 传入对应 id
+   * @param type 0 图片 1 视频
+   */
+  const jumpToDetail = (id: string, type: 0 | 1) => {
+    router.replace({
+      path: type ? '/short-video' : '/article-detail',
+      query: { id, url: 'other-home' }
+    })
+  }
+
+  /**
+   * 跳转到对应粉丝关注
+   * @param id
+   * @param type 0 粉丝 1 关注
+   */
+  const jumpToFans = (id: string, type: 0 | 1) => {
+    router.replace({
+      path: type ? '/follow' : '/fans',
+      query: { id, url: 'other-home' }
+    })
+  }
+
+  /** 跳转通话 */
+  const jumpToCall = (id: string, cid: string) => {
+    router.replace({
+      path: '/call-index',
+      query: { id, cid, url: 'private-chat' }
+    })
+  }
+
   /** 接收路由参数 id */
-  const queryId = computed<string>(() => (route?.query?.id as string) || '1')
+  const queryId = computed<string>(() => (route?.query?.id as string) || 'u23')
 
   /**
    * 传给 app 参数
@@ -83,7 +119,13 @@ export const useJump = () => {
     if (state === 1) {
       window.flutter_inappwebview.callHandler(key, value).then(v => {
         if (key === 'Recharge') {
-          userInfo.coins = v
+          userInfo.coins += v
+          userList.value.forEach(v => {
+            if (v.userId === userInfo.userId) {
+              v.coins = userInfo.coins
+            }
+          })
+          appParams({ key: 'updateUser', value: userList.value, state: 1 })
         }
       })
     }
@@ -99,6 +141,9 @@ export const useJump = () => {
     appParams,
     jumpToBlackList,
     jumpToUserAgreement,
+    jumpToDetail,
+    jumpToFans,
+    jumpToCall,
     queryId
   }
 }

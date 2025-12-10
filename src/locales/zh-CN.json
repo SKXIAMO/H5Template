@@ -30,7 +30,8 @@
     "Fans": "粉丝",
     "BlackList": "黑名单",
     "EditInfo": "编辑资料",
-    "GoldCoin": "我的金币"
+    "GoldCoin": "我的金币",
+    "CallIndex": "呼叫"
   },
   "tabbar": {
     "home": "首页",

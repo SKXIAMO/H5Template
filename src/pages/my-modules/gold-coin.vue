@@ -10,30 +10,20 @@ defineOptions({
 })
 
 const { userInfo } = useUserStore()
-const { winCoinData, winUserListData } = useWindow()
+const { winCoinData } = useWindow()
 const { appParams } = useJump()
-
-const userList = ref<UserInfo[]>(winUserListData)
 
 const formData = reactive({
   radio: winCoinData[0]?.key
 })
 
 const onRecharge = () => {
-  const { cions } = winCoinData.find(v => v.key === formData.radio)
-  userInfo.coins += cions
-  userList.value.forEach(v => {
-    if (v.userId === userInfo.userId) {
-      v.coins = userInfo.coins
-    }
-  })
-  appParams({ key: 'updateUser', value: userList.value, state: 1 })
   appParams({ key: 'Recharge', value: formData.radio, state: 1 })
 }
 </script>
 
 <template>
-  <div class="gold-coin_box">
+  <div safe-area-inset-top class="gold-coin_box">
     <div p-layout-padding>
       <ul class="top-box">
         <li>

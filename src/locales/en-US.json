@@ -32,7 +32,8 @@
     "Fans": "Fans",
     "BlackList": "Black List",
     "EditInfo": "Edit Info",
-    "GoldCoin": "Gold Coin"
+    "GoldCoin": "Gold Coin",
+    "CallIndex": "Call"
   },
 
   "tabbar": {

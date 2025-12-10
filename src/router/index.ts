@@ -54,6 +54,8 @@ router.beforeEach(async (to: EnhancedRouteLocation) => {
   // Route cache
   routeCacheStore.addRoute(to)
 
+  // console.log('页面内容')
+
   // 设置页面标题
   setPageTitle(to.name)
   // if (isLogin() && !userStore.userInfo?.uid) await userStore.info()

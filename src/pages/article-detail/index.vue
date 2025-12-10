@@ -8,8 +8,8 @@ defineOptions({
   name: 'ArticleDetail'
 })
 
-const { detailLikeIcon } = useAppImgStyle()
-const { loding, dynamicInfo, commentList, onSend } = useDetail()
+const { detailLikeIcon, likeIcon } = useAppImgStyle()
+const { loding, dynamicInfo, commentList, isLike, onLike, onSend } = useDetail()
 </script>
 
 <template>
@@ -21,7 +21,7 @@ const { loding, dynamicInfo, commentList, onSend } = useDetail()
         </van-swipe-item>
       </van-swipe>
       <div p-5 text-end flex flex-col items-center bottom-0 right-0 absolute>
-        <van-image :src="detailLikeIcon" fit="cover" />
+        <van-image :src="isLike ? likeIcon : detailLikeIcon" fit="cover" @click="onLike" />
         <span class="public-number">{{ dynamicInfo?.dynamicLikeCount }}</span>
       </div>
     </div>

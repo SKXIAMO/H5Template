@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-  <div class="black-list_box">
+  <div safe-area-inset-top class="black-list_box">
     <my-list type="blackList" />
   </div>
 </template>

@@ -1,60 +1,76 @@
 <script setup lang="ts">
-import Head from '@/assets/public/Head.png'
-import { useJump } from '@/hooks/useJump'
-import { useWindow } from '@/hooks/useWindow'
+  import Head from '@/assets/public/Head.png'
+  import { useJump } from '@/hooks/useJump'
+  import { useWindow } from '@/hooks/useWindow'
 
-const { winUserListData } = useWindow()
-const { queryId } = useJump()
+  const { winUserListData } = useWindow()
+  const { queryId } = useJump()
 
-const listData = ref<UserInfo[]>([])
+  const listData = ref<UserInfo[]>([])
 
-const props = withDefaults(defineProps<{
-  /**
-   * 列表类型 follow: 关注 | fans: 粉丝 | blackList: 黑名单
-   */
-  type?: 'follow' | 'fans' | 'blackList'
-}>(), {
-  type: 'follow'
-})
+  const props = withDefaults(
+    defineProps<{
+      /**
+       * 列表类型 follow: 关注 | fans: 粉丝 | blackList: 黑名单
+       */
+      type?: 'follow' | 'fans' | 'blackList'
+    }>(),
+    {
+      type: 'follow'
+    }
+  )
 
-const rightIcon = computed(() => {
-  switch (props.type) {
-    case 'follow':
-      return 'minus'
-    case 'fans':
-      return 'plus'
-    case 'blackList':
-      return 'cross'
-    default:
-      return 'minus'
+  const rightIcon = computed(() => {
+    switch (props.type) {
+      case 'follow':
+        return 'minus'
+      case 'fans':
+        return 'plus'
+      case 'blackList':
+        return 'cross'
+      default:
+        return 'minus'
+    }
+  })
+
+  const getData = () => {
+    const item = winUserListData.find(v => v.userId === queryId.value)
+    const list =
+      item[props.type === 'blackList' ? 'blockList' : props.type]
+
+    listData.value = winUserListData.filter(v => list.includes(v.userId))
+
+    console.log(listData.value, '====')
   }
-})
 
-const getData = () => {
-  const item = winUserListData.find(v => v.userId === queryId.value)
-  const list = item[props.type === 'blackList' ? 'blockList' : props.type]
-
-  listData.value = winUserListData.filter(v => list.includes(v.userId))
-
-  console.log(listData.value, '====')
-}
-
-onMounted(() => {
-  getData()
-})
+  onMounted(() => {
+    getData()
+  })
 </script>
 
 <template>
   <div p-layout-padding>
-    <div v-for="(item, index) in listData" :key="index" px-4 py-3 flex items-center justify-between
+    <div
+      v-for="(item, index) in listData"
+      :key="index"
+      px-4
+      py-3
+      flex
+      items-center
+      justify-between
       class="list-box rounded-[20px] bg-[#282329cc]"
->
+    >
       <ul>
         <li flex items-center>
-          <van-image round ai-avatar :src="item.avator || Head" fit="cover" />
+          <van-image
+            round
+            ai-avatar
+            :src="item.avator || Head"
+            fit="cover"
+          />
           <span ml-4 ai-user-name>{{ item.name }}</span>
         </li>
-        <li mt-2>
+        <li v-if="props.type !== 'blackList'" mt-2>
           <span ai-text-desc>{{ item.about }}</span>
         </li>
       </ul>
@@ -64,7 +80,7 @@ onMounted(() => {
 </template>
 
 <style lang="less" scoped>
-.list-box+.list-box {
-  margin-top: 16px;
-}
+  .list-box + .list-box {
+    margin-top: 16px;
+  }
 </style>

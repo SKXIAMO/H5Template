@@ -41,7 +41,7 @@ const onSubmit = () => {
 </script>
 
 <template>
-  <div class="edit-info_box">
+  <div safe-area-inset-top class="edit-info_box">
     <!-- 头像编辑 -->
     <div mb-16 mt-6 flex justify-center relative>
       <van-image round h-20 w-20 :src="imgUrl || defaultHead" fit="cover" @click="clickElement" />
