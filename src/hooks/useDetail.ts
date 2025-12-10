@@ -76,7 +76,7 @@ export const useDetail = () => {
    * @param v 内容
    * @param type 0:图片 1:视频
    */
-  const onSend = (v: string, state: 0 | 1 = 0) => {
+  const onSend = (v: string, _: 0 | 1 = 0) => {
     if (v) {
       const id = Date.now()
       const item: CommentInfo = {
@@ -90,12 +90,12 @@ export const useDetail = () => {
       commentList.value.unshift(item)
       paramsList.value.unshift(item)
 
-      appParams({ key: 'updateComment', value: paramsList.value, state })
+      appParams({ key: 'updateComment', value: paramsList.value, state: 1 })
     }
   }
 
   /**
-   * 点赞
+   * 图片点赞
    */
   const onLike = () => {
     if (isLike.value) {
@@ -108,11 +108,18 @@ export const useDetail = () => {
       isLike.value = true
     }
 
+    console.log(userInfo.picPostLikeIds, '==2')
     dynamicListData.value.forEach(v => {
       if (v.dynamicId === queryId.value) {
         v.dynamicLikeCount = dynamicInfo.value.dynamicLikeCount
       }
     })
+    allUserListData.value.forEach(v => {
+      if (v.userId === userInfo.userId) {
+        v.picPostLikeIds = userInfo.picPostLikeIds
+      }
+    })
+    appParams({ key: 'updateUser', value: allUserListData.value, state: 1 })
     appParams({ key: 'updatePost', value: dynamicListData.value, state: 1 })
   }
 
@@ -133,6 +140,13 @@ export const useDetail = () => {
         v.dynamicLikeCount = dynamicInfo.value.dynamicLikeCount
       }
     })
+
+    allUserListData.value.forEach(v => {
+      if (v.userId === userInfo.userId) {
+        v.videoPostLikeIds = userInfo.videoPostLikeIds
+      }
+    })
+    appParams({ key: 'updateUser', value: allUserListData.value, state: 1 })
     appParams({ key: 'updatePost', value: dynamicListData.value, state: 1 })
   }
 

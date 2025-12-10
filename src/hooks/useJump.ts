@@ -104,7 +104,7 @@ export const useJump = () => {
   }
 
   /** 接收路由参数 id */
-  const queryId = computed<string>(() => (route?.query?.id as string) || 'u23')
+  const queryId = computed<string>(() => (route?.query?.id as string) || '1')
 
   /**
    * 传给 app 参数
