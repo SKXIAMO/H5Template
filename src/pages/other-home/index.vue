@@ -51,9 +51,13 @@
 
   const onFollow = () => {
     useData.userInfo.follow.push(userInfo.value.userId)
+    userInfo.value.fans.push(useData.userInfo.userId)
     allUserList.value.forEach(v => {
       if (v.userId === useData.userInfo.userId) {
         v.follow = useData.userInfo.follow
+      }
+      if (v.userId === userInfo.value.userId) {
+        v.fans = userInfo.value.fans
       }
     })
     isShowFollow.value = true

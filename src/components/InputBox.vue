@@ -43,6 +43,7 @@
 
     .input--width {
       width: var(--ai-field-input-width);
+      padding-bottom: calc(10px + var(--ai-view-padding-bottom));
     }
 
     .van-field {

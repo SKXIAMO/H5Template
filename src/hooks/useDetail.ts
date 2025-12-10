@@ -7,6 +7,7 @@ export const detailId = ref('')
 
 /** 动态详情信息获取 */
 export const useDetail = () => {
+  const router = useRouter()
   const { queryId, appParams } = useJump()
   const { userInfo } = useUserStore()
   const { winCommentData, winDynamicData, winUserListData } = useWindow()
@@ -173,9 +174,17 @@ export const useDetail = () => {
     }
   }
 
+  /** 点击头像跳转到对于主页 */
+  const onAvator = () => {
+    router.replace({
+      path: '/other-home',
+      query: { id: dynamicInfo.value.userId }
+    })
+  }
+
   onMounted(() => {
     getData()
   })
 
-  return { loding, dynamicInfo, commentList, isLike, isVideoLike, isFollow, onFollow, onLike, onSend, onVideoLike }
+  return { loding, dynamicInfo, commentList, isLike, isVideoLike, isFollow, onFollow, onLike, onSend, onVideoLike, onAvator }
 }

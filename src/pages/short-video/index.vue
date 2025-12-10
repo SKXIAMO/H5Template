@@ -17,6 +17,7 @@
     commentList,
     isVideoLike,
     isFollow,
+    onAvator,
     onFollow,
     onSend,
     onVideoLike
@@ -77,6 +78,7 @@
             :src="dynamicInfo?.avator || Head"
             fit="cover"
             class="user-head"
+            @click="onAvator"
           />
           <van-image
             v-if="!isFollow && userInfo.userId !== dynamicInfo?.userId"
@@ -92,7 +94,11 @@
         <ul ml-3 shrink w-full>
           <li flex justify-between>
             <span ai-user-name>{{ dynamicInfo?.name }}</span>
-            <van-image v-if="userInfo.userId !== dynamicInfo?.userId" :src="reportIcon" @click="isReport = true" />
+            <van-image
+              v-if="userInfo.userId !== dynamicInfo?.userId"
+              :src="reportIcon"
+              @click="isReport = true"
+            />
           </li>
           <li>
             <span mt-1 ai-text-desc>
@@ -125,7 +131,10 @@
       <div p-layout-padding>
         <van-divider content-position="left">Comments</van-divider>
         <div class="h-[56vh] overflow-y-auto">
-          <comment-card :list="commentList" pb-16 />
+          <comment-card
+            :list="commentList"
+            class="video-comment-card_box"
+          />
         </div>
         <input-box @send="v => onSend(v, 1)" />
       </div>
@@ -136,6 +145,10 @@
 </template>
 
 <style lang="less" scoped>
+  .video-comment-card_box {
+    padding-bottom: calc(60px + var(--ai-view-padding-bottom));
+  }
+
   .video-box {
     width: 100%;
     height: 100vh;
