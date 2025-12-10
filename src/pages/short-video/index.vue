@@ -2,6 +2,7 @@
   import Head from '@/assets/public/Head.png'
   import { useAppImgStyle } from '@/hooks/useAppImgStyle'
   import { useDetail } from '@/hooks/useDetail'
+  import { useUserStore } from '@/stores'
 
   defineOptions({
     name: 'ShortVideo'
@@ -9,6 +10,7 @@
 
   const { reportIcon, addIcon, messageIcon, detailLikeIcon, likeIcon } =
     useAppImgStyle()
+  const { userInfo } = useUserStore()
   const {
     loding,
     dynamicInfo,
@@ -77,7 +79,7 @@
             class="user-head"
           />
           <van-image
-            v-if="!isFollow"
+            v-if="!isFollow && userInfo.userId !== dynamicInfo?.userId"
             round
             right-3
             top-9.5
@@ -90,7 +92,7 @@
         <ul ml-3 shrink w-full>
           <li flex justify-between>
             <span ai-user-name>{{ dynamicInfo?.name }}</span>
-            <van-image :src="reportIcon" @click="isReport = true" />
+            <van-image v-if="userInfo.userId !== dynamicInfo?.userId" :src="reportIcon" @click="isReport = true" />
           </li>
           <li>
             <span mt-1 ai-text-desc>

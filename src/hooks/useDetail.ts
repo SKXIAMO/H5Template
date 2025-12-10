@@ -90,6 +90,13 @@ export const useDetail = () => {
       commentList.value.unshift(item)
       paramsList.value.unshift(item)
 
+      dynamicInfo.value.dynamicCommentCount += 1
+      dynamicListData.value.forEach(v => {
+        if (v.dynamicId === dynamicInfo.value.dynamicId) {
+          v.dynamicCommentCount = dynamicInfo.value.dynamicCommentCount
+        }
+      })
+      appParams({ key: 'updatePost', value: dynamicListData.value, state: 1 })
       appParams({ key: 'updateComment', value: paramsList.value, state: 1 })
     }
   }
