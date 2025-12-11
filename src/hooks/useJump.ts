@@ -24,7 +24,7 @@ export const useJump = () => {
   const userList = ref<UserInfo[]>(winUserListData)
 
   /** 接收路由参数 id */
-  const queryId = computed<string>(() => (route?.query?.id as string) || 'c1')
+  const queryId = computed<string>(() => (route?.query?.id as string) || '1')
 
   /**
    * 返回

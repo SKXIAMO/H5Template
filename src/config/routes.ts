@@ -14,3 +14,6 @@ export const routeNoNavBar: readonly string[] = ['PrivateChat', 'CallIndex']
 
 /** 显示标题的路由 */
 export const routeShowTitle: readonly string[] = ['SetupPage', 'Follow', 'Fans', 'BlackList', 'EditInfo', 'GoldCoin', 'ReportIndex', 'UserAgreement', 'PrivacyAgreement']
+
+/** 导航栏颜色样式 */
+export const navBarStyle: readonly string[] = ['ArticleDetail']

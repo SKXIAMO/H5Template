@@ -6,7 +6,7 @@ export default {
   avator: '',
   name: 'laiyla',
   about: '这个人很棒',
-  coins: 99,
+  coins: 100,
   follow: [],
   fans: [],
   blockList: ['u24'],

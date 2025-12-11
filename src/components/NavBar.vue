@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import {
+    navBarStyle,
     rootRouteList,
     routeNoNavBar,
     routeNoRightBtn,
@@ -85,6 +86,11 @@
   const showTitle = computed(
     () => !route.name || routeShowTitle.includes(route.name)
   )
+
+  /** 是否显示导航栏样式 */
+  const showNavBarStyle = computed(
+    () => !route.name || navBarStyle.includes(route.name)
+  )
 </script>
 
 <template>
@@ -96,6 +102,7 @@
     :border="false"
     clickable
     safe-area-inset-top
+    :class="{ 'top-nav-bar_box': showNavBarStyle }"
     @click-left="onBack"
   >
     <template v-if="showLeftArrow" #left>
@@ -116,4 +123,13 @@
   <report-box v-model:show="isReport" />
 </template>
 
-<style scoped></style>
+<style lang="less" scoped>
+  .top-nav-bar_box {
+    opacity: 0.5;
+    background: linear-gradient(
+      180deg,
+      rgba(14, 8, 15, 1) 0%,
+      rgba(14, 8, 15, 0) 100%
+    );
+  }
+</style>

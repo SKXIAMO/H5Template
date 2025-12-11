@@ -2,7 +2,7 @@
 export default [
   {
     dynamicId: '1', // 根据 /xxx?id=1 来匹配
-    userId: 'u99', // 根据该 id 去查询传入过来的 json 用户的信息
+    userId: 'u24', // 根据该 id 去查询传入过来的 json 用户的信息
     dynamicType: 0,
     dynamicDesc: '这是一段描述',
     dynamicTitleType: 0, // 动态标题类型
@@ -15,7 +15,7 @@ export default [
   },
   {
     dynamicId: '2', // 根据 /xxx?id=1 来匹配
-    userId: 'u24', // 根据该 id 去查询传入过来的 json 用户的信息
+    userId: 'u99', // 根据该 id 去查询传入过来的 json 用户的信息
     dynamicType: 1,
     dynamicDesc: '这s是一段描述',
     dynamicTitleType: 0, // 动态标题类型

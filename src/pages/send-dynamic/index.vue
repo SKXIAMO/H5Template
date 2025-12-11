@@ -84,8 +84,10 @@
       </div>
 
       <!-- 底部按钮 -->
-      <div mt-20 flex justify-center>
-        <div ai-gradient-btn @click="onSubmit">Release</div>
+      <div mt-20 flex justify-center class="public-btoom-btn">
+        <div ai-gradient-btn class="public_btn" @click="onSubmit">
+          Release
+        </div>
       </div>
     </div>
   </div>

@@ -142,7 +142,7 @@
       <template #right>
         <van-image :src="ImgIcon" h-6 w-6 @click="clickElement" />
         <van-image
-          mx-3
+          mx-6
           :src="VideoIcon"
           h-6
           w-6

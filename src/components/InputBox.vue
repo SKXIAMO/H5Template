@@ -35,11 +35,18 @@
 <style lang="less" scoped>
   .input-box {
     position: fixed;
-    bottom: 10px;
+    bottom: 0;
     left: 0;
     width: 100%;
     display: flex;
     justify-content: center;
+
+    opacity: 1;
+    background: linear-gradient(
+      0deg,
+      rgba(14, 8, 15, 0.8) 0%,
+      rgba(14, 8, 15, 0) 100%
+    );
 
     .input--width {
       width: var(--ai-field-input-width);
