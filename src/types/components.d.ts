@@ -13,6 +13,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     ChatList: typeof import('./../components/ChatList.vue')['default']
     CommentCard: typeof import('./../components/CommentCard.vue')['default']
+    Empty: typeof import('./../components/Empty.vue')['default']
     GhostButton: typeof import('./../components/GhostButton.vue')['default']
     InputBox: typeof import('./../components/InputBox.vue')['default']
     MyList: typeof import('./../components/MyList.vue')['default']

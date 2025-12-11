@@ -70,6 +70,7 @@
 
 <template>
   <div p-layout-padding>
+    <empty v-if="listData.length === 0" />
     <div
       v-for="(item, index) in listData"
       :key="index"

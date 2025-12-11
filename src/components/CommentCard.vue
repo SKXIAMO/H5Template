@@ -22,6 +22,7 @@
 
 <template>
   <div safe-area-inset-bottom>
+    <empty v-if="props.list.length === 0" />
     <div
       v-for="(item, index) in props.list"
       :key="index"
