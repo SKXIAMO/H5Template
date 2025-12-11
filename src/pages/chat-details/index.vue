@@ -1,45 +1,71 @@
 <script setup lang="ts">
   import axios from 'axios'
   import CryptoJS from 'crypto-js'
+  import { useUserStore } from '@/stores'
 
   defineOptions({
     name: 'ChatDetails'
   })
 
-  const listData = ref<MessageInfo[]>([
-    {
-      msgId: 'm1',
-      chatId: 'c1',
-      userId: 'u99',
-      sendContent: '...',
-      sendPicUrl: '',
-      sendTime: '2021-09-01 10:00:00',
-      position: 'left'
-    },
-    {
-      msgId: 'm2',
-      chatId: 'c1',
-      userId: 'u22',
-      sendContent: '...',
-      sendPicUrl: '',
-      sendTime: '2021-09-01 10:00:00',
-      position: 'right'
+  const { userInfo } = useUserStore()
+
+  // ai 回复下标
+  const aiIndex = ref(0)
+  const listData = ref<MessageInfo[]>([])
+
+  // 密钥（前后端必须一致，实际项目中不要硬编码！）
+  const SECRET_KEY = CryptoJS.enc.Utf8.parse('518486he8pzgbjsk')
+  // 可选：IV（初始化向量），CBC 模式需要
+  const IV = CryptoJS.enc.Utf8.parse('614436p28qzhkjsl')
+
+  const aesHexDecrypt = (encryptedHex: string) => {
+    if (!encryptedHex) return encryptedHex
+    try {
+      // 创建CipherParams对象
+      const cipherParams = CryptoJS.lib.CipherParams.create({
+        ciphertext: CryptoJS.enc.Hex.parse(encryptedHex)
+      })
+
+      // 执行解密
+      const decrypted = CryptoJS.AES.decrypt(cipherParams, SECRET_KEY, {
+        iv: IV,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      })
+
+      // 返回解密后的原始数据
+      return JSON.parse(decrypted.toString(CryptoJS.enc.Utf8))
+    } catch (err) {
+      throw new Error('解密失败，请检查加密参数:', err)
     }
-  ])
+  }
 
-  const onSend = (v: string) => {
-    // 密钥（前后端必须一致，实际项目中不要硬编码！）
-    const SECRET_KEY = CryptoJS.enc.Utf8.parse('ytk903hexnvylkqx')
-    // 可选：IV（初始化向量），CBC 模式需要
-    const IV = CryptoJS.enc.Utf8.parse('98hpyh4k5pmsg44u')
+  const isAllLoaded = computed(() =>
+    listData.value.every(v => !v.loading)
+  )
 
+  const onSend = async (v: string) => {
+    if (!isAllLoaded.value) return
     // 要发送的原始数据
     const originalData = {
       system: '1',
       dashScopeMessageDTOList: [{ role: 'user', content: v }]
     }
 
-    const dataStr = JSON.stringify(originalData)
+    const item: MessageInfo = {
+      loading: false,
+      position: 'right',
+      msgId: `${Date.now()}_m2`,
+      chatId: `${Date.now()}_c_c1`,
+      name: userInfo.name,
+      avator: userInfo.avator,
+      userId: userInfo.userId,
+      sendPicUrl: '',
+      sendContent: v
+    }
+    listData.value.push(item)
+
+    const dataStr = CryptoJS.enc.Utf8.parse(JSON.stringify(originalData))
 
     // AES 加密（CBC 模式，PKCS7 填充）
     const encrypted = CryptoJS.AES.encrypt(dataStr, SECRET_KEY, {
@@ -51,21 +77,46 @@
     // 将密文转为十六进制（Hex）字符串
     const hexCiphertext = encrypted.ciphertext.toString(CryptoJS.enc.Hex)
 
-    axios
-      .post(
-        'https://opi.3o2g4cpj.link/opi/v1/sTwAbQydifKs',
-        { data: hexCiphertext },
-        {
-          headers: {
-            appVersion: '1.0.0',
-            appId: '69165057',
-            deviceNo: 'ry1ndgQYow5TKLcWYG1mUiCARFmzSHJW69165057'
-          }
-        }
-      )
-      .then(res => {
-        console.log(res.data)
+    const url = 'https://opi.3o2g4cpj.link/opi/v1/aaasss'
+
+    const data = hexCiphertext
+
+    const headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      appVersion: '1.0.0',
+      deviceNo: 'qLHAFA35vphwki4J7yaIhoyFoR944332211',
+      appId: '44332211'
+    }
+    try {
+      aiIndex.value += 1
+      const aiItem: MessageInfo = {
+        loading: true,
+        position: 'left',
+        msgId: `ai_${aiIndex.value}`,
+        chatId: `${Date.now()}_c_c1_ai`,
+        name: '',
+        avator: '',
+        userId: `${Date.now()}_c_c1_ai_c`,
+        sendPicUrl: '',
+        sendContent: ''
+      }
+
+      listData.value.push(aiItem)
+      const response = await axios.post(url, data, {
+        headers,
+        transformRequest: [data => data]
       })
+      const list = aesHexDecrypt(response.data.result)
+      listData.value.forEach(v => {
+        if (v.msgId === `ai_${aiIndex.value}`) {
+          v.loading = false
+          v.sendContent = list.output.choices[0].message.content
+        }
+      })
+    } catch (error) {
+      console.error('请求失败:', error.response?.data || error.message)
+    }
   }
 </script>
 
@@ -88,11 +139,18 @@
       </ul>
     </div>
 
-    <chat-list v-model:list="listData" @send="onSend" />
+    <chat-list
+      v-model:list="listData"
+      class="bottom-list_box"
+      @send="onSend"
+    />
   </div>
 </template>
 
 <style lang="less" scoped>
+  .bottom-list_box {
+    padding-bottom: calc(80px + var(--ai-view-padding-bottom));
+  }
   .chat-details_box {
     min-height: 100vh;
     background: var(--ai-chat-details-bg-color);

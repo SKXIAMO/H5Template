@@ -128,6 +128,8 @@ interface ChatInfo {
 
 /** 消息类型 */
 interface MessageInfo {
+  /** 加载 */
+  loading?: boolean
   /** 消息 id */
   msgId: string
   /** 聊天 id */

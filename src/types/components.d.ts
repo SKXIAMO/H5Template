@@ -31,6 +31,7 @@ declare module 'vue' {
     VanField: typeof import('vant/es')['Field']
     VanIcon: typeof import('vant/es')['Icon']
     VanImage: typeof import('vant/es')['Image']
+    VanLoading: typeof import('vant/es')['Loading']
     VanNavBar: typeof import('vant/es')['NavBar']
     VanOverlay: typeof import('vant/es')['Overlay']
     VanPicker: typeof import('vant/es')['Picker']

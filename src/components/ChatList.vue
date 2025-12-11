@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import Head from '@/assets/public/Head.png'
+  import Head from '@/assets/public/ai-head.png'
 
   const listData = defineModel<MessageInfo[]>('list', {
     type: Array as PropType<MessageInfo[]>,
@@ -38,6 +38,9 @@
             <p ai-text-desc>
               {{ item.sendContent }}
             </p>
+          </div>
+          <div v-if="item.loading" flex items-center>
+            <van-loading type="spinner" />
           </div>
         </div>
         <van-image
