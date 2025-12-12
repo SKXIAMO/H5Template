@@ -10,6 +10,7 @@
 
   const { winReportListData } = useWindow()
   const router = useRouter()
+  const route = useRoute()
 
   const formData = reactive({
     title: '',
@@ -21,7 +22,10 @@
       message: 'Loading...',
       forbidClick: true,
       onClose: () => {
-        router.go(-1)
+        router.replace({
+          path: route.query.url as string,
+          query: { id: route.query?.cid }
+        })
       }
     })
   }

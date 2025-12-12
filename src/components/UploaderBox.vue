@@ -26,6 +26,7 @@
   const isImage = computed(() => props.accept === 'image')
   const videoData = reactive({
     url: '',
+    objectUrl: '',
     show: false
   })
 
@@ -56,7 +57,9 @@
   }
 
   const onCheckVideo = (item: UploaderFileListItem) => {
-    videoData.url = item.objectUrl
+    const { url, objectUrl } = item
+    videoData.url = url
+    videoData.objectUrl = objectUrl
     videoData.show = true
   }
 </script>
@@ -93,7 +96,11 @@
           <video
             v-if="videoData.show"
             :src="videoData.url"
+            :poster="videoData.objectUrl"
             controls
+            webkit-playsinline
+            playsinline
+            x5-playsinline
             h-full
             w-full
           />

@@ -6,6 +6,7 @@
   import { useUserStore } from '@/stores'
 
   const router = useRouter()
+  const route = useRoute()
   const show = defineModel<boolean>('show', {
     type: Boolean,
     required: true,
@@ -19,9 +20,14 @@
   const allUserList = ref<UserInfo[]>(winUserListData)
 
   const onReport = () => {
-    router.push('/report-index').then(() => {
-      show.value = false
-    })
+    router
+      .replace({
+        path: '/report-index',
+        query: { cid: route.query?.id, url: route.path }
+      })
+      .then(() => {
+        show.value = false
+      })
   }
 
   const onShield = () => {

@@ -44,7 +44,7 @@ export function useVideoCover(): UseVideoCoverReturn {
 
       video.onloadedmetadata = () => {
         // 设置到第 0 秒（有些浏览器需微小偏移）
-        video.currentTime = 1 // 避免某些设备卡在 0s 无法渲染
+        video.currentTime = 0.2 // 避免某些设备卡在 0s 无法渲染
       }
 
       video.onseeked = () => {
