@@ -9,7 +9,7 @@ import { useWindow } from './useWindow'
  * logout: 退出登录
  * deleteaccount: 删除账号
  * uploadMessage: 更新消息
- * uploadChat: 更新聊天室
+ * uploadChat: 更新聊天室  
  * Recharge: 充值选项
  */
 export type AppCommunication =
