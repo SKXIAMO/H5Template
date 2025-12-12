@@ -5,7 +5,7 @@ export interface UseVideoCoverReturn {
 }
 
 /**
- * 从视频文件中提取第一帧作为封面图（兼容 iOS，不黑屏）
+ * 从视频文件中提取第一帧作为封面图（Blob）
  */
 export function useVideoCover(): UseVideoCoverReturn {
   const isExtracting = ref(false)
@@ -22,17 +22,17 @@ export function useVideoCover(): UseVideoCoverReturn {
       isExtracting.value = true
       error.value = null
 
+      // 创建 video 元素（纯 JS，不挂载到 DOM）
       const video = document.createElement('video')
-      video.preload = 'auto'
-      video.muted = true // iOS 必须静音才能自动播放
+      video.preload = 'metadata'
+      video.muted = true
       video.playsInline = true
-      video.setAttribute('webkit-playsinline', 'true')
 
       const url = URL.createObjectURL(file)
 
       const cleanup = () => {
         URL.revokeObjectURL(url)
-        video.remove()
+        video.remove() // 虽未挂载，但安全起见
       }
 
       video.onerror = () => {
@@ -42,57 +42,51 @@ export function useVideoCover(): UseVideoCoverReturn {
         resolve(null)
       }
 
-      // 元数据加载完毕（知道宽高）
-      video.onloadeddata = async () => {
-        try {
-          // ⭐ iOS 必须先播放一帧，否则黑屏
-          await video.play()
+      video.onloadedmetadata = () => {
+        // 设置到第 0 秒（有些浏览器需微小偏移）
+        video.currentTime = 0.2 // 避免某些设备卡在 0s 无法渲染
+      }
 
-          // 播放一帧就暂停
-          video.pause()
+      video.onseeked = () => {
+        // 创建离屏 canvas
+        const canvas = document.createElement('canvas')
+        canvas.width = video.videoWidth
+        canvas.height = video.videoHeight
 
-          // ⭐ iOS 必须延迟等待渲染
-          setTimeout(() => {
-            const canvas = document.createElement('canvas')
-            canvas.width = video.videoWidth
-            canvas.height = video.videoHeight
-
-            if (!canvas.width || !canvas.height) {
-              error.value = '无法获取视频尺寸'
-              cleanup()
-              isExtracting.value = false
-              resolve(null)
-              return
-            }
-
-            const ctx = canvas.getContext('2d')
-            if (!ctx) {
-              error.value = 'Canvas 上下文不可用'
-              cleanup()
-              isExtracting.value = false
-              resolve(null)
-              return
-            }
-
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
-
-            canvas.toBlob(
-              blob => {
-                cleanup()
-                isExtracting.value = false
-                if (blob) resolve(blob)
-                else resolve(null)
-              },
-              'image/jpeg',
-              0.8
-            )
-          }, 150) // iOS 渲染延迟关键点
-        } catch (e) {
-          error.value = '视频提取失败'
+        if (canvas.width === 0 || canvas.height === 0) {
+          error.value = '无法获取视频尺寸'
           cleanup()
           isExtracting.value = false
           resolve(null)
+          return
         }
+
+        const ctx = canvas.getContext('2d')
+        if (!ctx) {
+          error.value = 'Canvas 上下文不可用'
+          cleanup()
+          isExtracting.value = false
+          resolve(null)
+          return
+        }
+
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+
+        // 转为 Blob（JPEG，质量 0.8）
+        canvas.toBlob(
+          blob => {
+            cleanup()
+            isExtracting.value = false
+            if (blob) {
+              resolve(blob)
+            } else {
+              error.value = 'Canvas 转 Blob 失败'
+              resolve(null)
+            }
+          },
+          'image/jpeg',
+          0.8
+        )
       }
 
       video.src = url

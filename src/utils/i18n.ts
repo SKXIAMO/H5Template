@@ -46,7 +46,7 @@ async function setLang(lang: string, i18n: I18n) {
   i18n.global.locale.value = lang
 
   // 设置 vant 组件语言包
-  Locale.use(lang, vantLocales[lang])
+  Locale.use(lang, vantLocales['en-US'])
 }
 
 // 加载本地语言包

@@ -1,6 +1,7 @@
 import type { UploaderFileListItem } from 'vant'
 import OSS from 'ali-oss'
 import axios from 'axios'
+import { closeToast, showLoadingToast } from 'vant'
 import { useVideoCover } from './useVideoCover'
 
 type stsTypeData = {
@@ -29,8 +30,13 @@ export const useFile = (cb?: UploadSuccessCallback) => {
    * 获取 STS 临时凭证
    */
   const getSTS = async () => {
+    showLoadingToast({
+      message: 'Loading...',
+      forbidClick: true
+    })
     const res = await axios.get('https://api.wouldbeauty.com/sts/getkey')
     stsData.value = res.data.result
+    closeToast()
     return res.data.result
   }
 
@@ -83,7 +89,7 @@ export const useFile = (cb?: UploadSuccessCallback) => {
     } catch (err) {
       item.status = 'failed'
       item.message = 'Failed...'
-      console.error('上传失败:', err)
+      console.error(err)
       throw err
     }
   }
