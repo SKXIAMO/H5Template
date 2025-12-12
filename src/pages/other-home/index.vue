@@ -38,6 +38,7 @@
     bottomList.value = winDynamicData.filter(
       v => v.userId === userInfo.value.userId
     )
+    console.log(bottomList.value, '====')
     isShowFollow.value = useData.userInfo.follow.includes(
       userInfo.value.userId
     )
@@ -45,7 +46,7 @@
   }
 
   const onGoDetail = (item: DynamicInfo) => {
-    jumpToDetail(item.dynamicId, item.dynamicType)
+    jumpToDetail(item.dynamicId, item.dynamicType, queryId.value)
   }
 
   const onFollow = () => {
@@ -193,8 +194,9 @@
               h-50
               w-full
               overflow-hidden
-              :src="Head"
+              :src="item.dynamicPic[0] || Head"
               fit="cover"
+              position="top"
             />
           </li>
           <!-- <li>

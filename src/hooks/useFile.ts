@@ -1,6 +1,7 @@
 import type { UploaderFileListItem } from 'vant'
 import OSS from 'ali-oss'
 import axios from 'axios'
+import { useVideoCover } from './useVideoCover'
 
 type stsTypeData = {
   AccessKeyId: string
@@ -17,6 +18,8 @@ type UploadSuccessCallback = (url: string) => void
 
 /** 获取对应文件并上传 */
 export const useFile = (cb?: UploadSuccessCallback) => {
+  const { extractCoverFromVideo } = useVideoCover()
+
   let fileInput: HTMLInputElement | null = null
   const stsData = ref<stsTypeData>()
   /** 图片链接 */
@@ -56,11 +59,27 @@ export const useFile = (cb?: UploadSuccessCallback) => {
       },
       refreshSTSTokenInterval: 900000 // 15分钟
     })
-    const key = `template_development/${Date.now()}_${file.name}`
+
     try {
-      const result = await client.put(key, file)
-      item.status = ''
-      return result.url
+      // 判断是否是视频
+      if (file.type.startsWith('video/')) {
+        const key = `template_development/${Date.now()}_${file.name}`
+        const coverBlob = await extractCoverFromVideo(file)
+        // 构造 File 对象用于上传
+        const coverFile = new File([coverBlob], 'cover.jpg', {
+          type: 'image/jpeg'
+        })
+        const videoKey = `template_development/${Date.now()}_${coverFile.name}`
+        const result = await client.put(videoKey, coverFile)
+        const videoRes = await client.put(key, file)
+        item.objectUrl = result.url
+        item.status = ''
+        return videoRes.url
+      } else {
+        const key = `template_development/${Date.now()}_${file.name}`
+        const result = await client.put(key, file)
+        return result.url
+      }
     } catch (err) {
       item.status = 'failed'
       item.message = 'Failed...'
@@ -79,7 +98,7 @@ export const useFile = (cb?: UploadSuccessCallback) => {
   }
 
   const pickImage = (): Promise<File | null> => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       // 确保 input 存在
       if (!fileInput) {
         fileInput = createFileInput()
@@ -121,11 +140,10 @@ export const useFile = (cb?: UploadSuccessCallback) => {
         status: '',
         message: ''
       }
-      uploadToOSS(data)
-        .then(url => {
-          imgUrl.value = url
-          cb?.(url)
-        })
+      uploadToOSS(data).then(url => {
+        imgUrl.value = url
+        cb?.(url)
+      })
     } else {
       console.log('未选择有效图片')
     }

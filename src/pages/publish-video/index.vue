@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { showSuccessToast, showToast } from 'vant'
+  import { showLoadingToast, showSuccessToast, showToast } from 'vant'
   import { useJump } from '@/hooks/useJump'
   import { useWindow } from '@/hooks/useWindow'
   import { useUserStore } from '@/stores'
@@ -40,12 +40,18 @@
       dynamicLikeCount: 0,
       dynamicCommentCount: 0,
       dynamicId: `${Date.now()}_video`,
-      dynamicPic: []
+      dynamicPic: [formData.dynamicPic.map(v => v.objectUrl)[0]]
     } as DynamicInfo
 
     listData.value.unshift(data)
-    showSuccessToast('success')
-    appParams({ key: 'updatePost', value: listData.value, state: 0 })
+    showLoadingToast({
+      message: 'Loading...',
+      forbidClick: true,
+      onClose: () => {
+        showSuccessToast('success')
+        appParams({ key: 'updatePost', value: listData.value, state: 0 })
+      }
+    })
   }
 </script>
 

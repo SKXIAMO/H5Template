@@ -12,7 +12,15 @@ import { useWindow } from './useWindow'
  * uploadChat: 更新聊天室
  * Recharge: 充值选项
  */
-export type AppCommunication = 'updateComment' | 'updateUser' | 'updatePost' | 'logout' | 'deleteaccount' | 'uploadMessage' | 'uploadChat' | 'Recharge'
+export type AppCommunication =
+  | 'updateComment'
+  | 'updateUser'
+  | 'updatePost'
+  | 'logout'
+  | 'deleteaccount'
+  | 'uploadMessage'
+  | 'uploadChat'
+  | 'Recharge'
 
 /** 路由跳转 */
 export const useJump = () => {
@@ -24,7 +32,9 @@ export const useJump = () => {
   const userList = ref<UserInfo[]>(winUserListData)
 
   /** 接收路由参数 id */
-  const queryId = computed<string>(() => (route?.query?.id as string) || 'u24')
+  const queryId = computed<string>(
+    () => (route?.query?.id as string) || 'u24'
+  )
 
   /**
    * 返回
@@ -39,7 +49,14 @@ export const useJump = () => {
     }
 
     if (route.query?.url) {
-      router.replace(route.query.url as string)
+      if (route.query?.cid) {
+        router.replace({
+          path: route.query.url as string,
+          query: { id: route.query?.cid }
+        })
+      } else {
+        router.replace(route.query.url as string)
+      }
       return
     }
 
@@ -104,10 +121,10 @@ export const useJump = () => {
    * @param id 传入对应 id
    * @param type 0 图片 1 视频
    */
-  const jumpToDetail = (id: string, type: 0 | 1) => {
+  const jumpToDetail = (id: string, type: 0 | 1, cid: string) => {
     router.replace({
       path: type ? '/short-video' : '/article-detail',
-      query: { id, url: 'other-home' }
+      query: { id, cid, url: 'other-home' }
     })
   }
 
@@ -134,7 +151,15 @@ export const useJump = () => {
   /**
    * 传给 app 参数
    */
-  const appParams = ({ key, value, state }: { key?: AppCommunication, value?: any, state?: 0 | 1 | 2 }) => {
+  const appParams = ({
+    key,
+    value,
+    state
+  }: {
+    key?: AppCommunication
+    value?: any
+    state?: 0 | 1 | 2
+  }) => {
     // state 0: 返回上一页 1: 只传值什么都不做 2: 只传 key
     if (state === 0) {
       window.flutter_inappwebview.callHandler(key, value)
@@ -150,7 +175,11 @@ export const useJump = () => {
               v.coins = userInfo.coins
             }
           })
-          appParams({ key: 'updateUser', value: userList.value, state: 1 })
+          appParams({
+            key: 'updateUser',
+            value: userList.value,
+            state: 1
+          })
         }
       })
     }

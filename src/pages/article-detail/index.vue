@@ -3,12 +3,14 @@
   import swipeOne from '@/assets/public/swipe-1.png'
   import { useAppImgStyle } from '@/hooks/useAppImgStyle'
   import { useDetail } from '@/hooks/useDetail'
+  import { useWindow } from '@/hooks/useWindow'
 
   defineOptions({
     name: 'ArticleDetail'
   })
 
   const { detailLikeIcon, likeIcon } = useAppImgStyle()
+  const { winPublishImageListData } = useWindow()
   const {
     loding,
     dynamicInfo,
@@ -28,7 +30,13 @@
           v-for="(item, index) in dynamicInfo?.dynamicPic"
           :key="index"
         >
-          <van-image h-full w-full :src="item || swipeOne" fit="cover" />
+          <van-image
+            h-full
+            w-full
+            :src="item || swipeOne"
+            fit="cover"
+            position="top"
+          />
         </van-swipe-item>
       </van-swipe>
       <div
@@ -66,14 +74,11 @@
         <li ml-5 class="w-[68%]">
           <span ai-text-desc>{{ dynamicInfo?.dynamicDesc }}</span>
           <p flex flex-wrap>
-            <span
-              v-for="(item, index) in dynamicInfo?.dynamicTag"
-              :key="index"
-              mr-2
-              mt-4
-              ai-tag-btn
-            >
-              {{ item }}
+            <span mr-2 mt-4 ai-tag-btn>
+              {{
+                winPublishImageListData[dynamicInfo?.dynamicTitleType]
+                  .name
+              }}
             </span>
           </p>
         </li>
