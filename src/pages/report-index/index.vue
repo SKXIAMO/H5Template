@@ -2,6 +2,7 @@
   import { showLoadingToast } from 'vant'
   import defaultOptionIcon from '@/assets/public/default-option.png'
   import SelectedIcon from '@/assets/public/selected.png'
+  import { useJump } from '@/hooks/useJump'
   import { useWindow } from '@/hooks/useWindow'
 
   defineOptions({
@@ -9,8 +10,18 @@
   })
 
   const { winReportListData } = useWindow()
+  const { onBack } = useJump()
   const router = useRouter()
   const route = useRoute()
+
+  const props = withDefaults(
+    defineProps<{
+      type?: 0 | 1
+    }>(),
+    {
+      type: 0
+    }
+  )
 
   const formData = reactive({
     title: '',
@@ -22,10 +33,14 @@
       message: 'Loading...',
       forbidClick: true,
       onClose: () => {
-        router.replace({
-          path: route.query.url as string,
-          query: { id: route.query?.cid }
-        })
+        if (props.type === 1) {
+          onBack()
+        } else {
+          router.replace({
+            path: route.query.url as string,
+            query: { id: route.query?.cid }
+          })
+        }
       }
     })
   }
