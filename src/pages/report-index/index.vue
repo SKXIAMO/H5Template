@@ -21,7 +21,7 @@
       message: 'Loading...',
       forbidClick: true,
       onClose: () => {
-        router.back()
+        router.go(-1)
       }
     })
   }

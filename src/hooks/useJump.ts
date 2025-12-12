@@ -9,7 +9,7 @@ import { useWindow } from './useWindow'
  * logout: 退出登录
  * deleteaccount: 删除账号
  * uploadMessage: 更新消息
- * uploadChat: 更新聊天室  
+ * uploadChat: 更新聊天室
  * Recharge: 充值选项
  */
 export type AppCommunication =
@@ -33,13 +33,18 @@ export const useJump = () => {
 
   /** 接收路由参数 id */
   const queryId = computed<string>(
-    () => (route?.query?.id as string) || '1'
+    () => (route?.query?.id as string) || 'u24'
   )
 
   /**
    * 返回
    */
   const onBack = async () => {
+    if (route.name === 'ReportIndex') {
+      // 返回一个路由
+      router.go(-1)
+      return
+    }
     if (route.query?.name === 'otherHome') {
       router.replace({
         path: '/other-home',
