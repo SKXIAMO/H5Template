@@ -34,12 +34,12 @@ export function useVideoCover(): UseVideoCoverReturn {
         video.remove()
       }
 
-      let isDone = false
+      let done = false
       const finish = (blob: Blob | null) => {
-        if (isDone) return
-        isDone = true
-        isExtracting.value = false
+        if (done) return
+        done = true
         cleanup()
+        isExtracting.value = false
         resolve(blob)
       }
 
@@ -48,27 +48,10 @@ export function useVideoCover(): UseVideoCoverReturn {
         finish(null)
       }
 
-      // 关键：iOS 上必须等待 loadeddata，代表第一帧已经可绘制
-      video.onloadeddata = () => {
-        try {
-          video.currentTime = 0.2
-        } catch {
-          // 即使失败也继续尝试绘制
-          draw()
-        }
-      }
-
-      // 尝试绘制
-      const draw = () => {
+      const capture = () => {
         const canvas = document.createElement('canvas')
         canvas.width = video.videoWidth
         canvas.height = video.videoHeight
-
-        if (!canvas.width || !canvas.height) {
-          error.value = '无法获取视频尺寸'
-          finish(null)
-          return
-        }
 
         const ctx = canvas.getContext('2d')
         if (!ctx) {
@@ -77,13 +60,7 @@ export function useVideoCover(): UseVideoCoverReturn {
           return
         }
 
-        try {
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
-        } catch {
-          error.value = '绘制失败（iOS 解码问题）'
-          finish(null)
-          return
-        }
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
 
         canvas.toBlob(
           blob => {
@@ -95,17 +72,19 @@ export function useVideoCover(): UseVideoCoverReturn {
             }
           },
           'image/jpeg',
-          0.85
+          0.9
         )
       }
 
-      // iOS 有时不会触发 seeked，所以准备一个兜底计时器
-      video.onseeked = () => draw()
-
-      // 200ms 兜底（某些 iOS 不会触发 seeked）
-      setTimeout(() => {
-        if (!isDone) draw()
-      }, 300)
+      // 关键：使用 requestVideoFrameCallback 捕获第一帧（iOS 100% 可用）
+      if ("requestVideoFrameCallback" in HTMLVideoElement.prototype) {
+        video.requestVideoFrameCallback(() => {
+          capture()
+        })
+      } else {
+        // 老设备 fallback
+        video.onloadeddata = () => capture()
+      }
 
       video.src = url
     })
