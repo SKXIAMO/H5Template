@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { showLoadingToast } from 'vant'
   import Head from '@/assets/public/Head.png'
   import { useAppImgStyle } from '@/hooks/useAppImgStyle'
   import { detailId } from '@/hooks/useDetail'
@@ -96,12 +97,19 @@
         lastSendUserId: useData.userInfo.userId
       }
       window?.chatListJson.push(item)
-      appParams({
-        key: 'uploadChat',
-        value: window?.chatListJson,
-        state: 1
+
+      showLoadingToast({
+        message: 'Loading...',
+        forbidClick: true,
+        onClose: () => {
+          appParams({
+            key: 'uploadChat',
+            value: window?.chatListJson,
+            state: 1
+          })
+          jumpToPrivateChat(item.chatId, queryId.value)
+        }
       })
-      jumpToPrivateChat(item.chatId, queryId.value)
     }
   }
 
