@@ -56,6 +56,7 @@
     <video
       ref="videoRef"
       :src="dynamicInfo?.dynamicVideo"
+      :poster="dynamicInfo?.dynamicPic[0]"
       webkit-playsinline
       playsinline
       x5-playsinline

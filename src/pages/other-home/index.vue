@@ -29,7 +29,6 @@
   /** 是否显示关注 */
   const isShowFollow = ref(false)
   const allUserList = ref<UserInfo[]>(winUserListData)
-  const chatListData = ref<ChatInfo[]>(winChatListData)
 
   const getData = () => {
     userInfo.value = winUserListData.find(v => v.userId === queryId.value)
@@ -96,10 +95,9 @@
         lastSendUserId: useData.userInfo.userId
       }
       window?.chatListJson.push(item)
-      chatListData.value.push(item)
       appParams({
         key: 'uploadChat',
-        value: chatListData.value,
+        value: window?.chatListJson,
         state: 1
       })
       jumpToPrivateChat(item.chatId, queryId.value)

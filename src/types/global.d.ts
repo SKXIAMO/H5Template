@@ -162,6 +162,12 @@ interface ReportInfo {
   reportContext: string
 }
 
+/** 发布图片选项类型 */
+interface PublishImageInfo {
+  name: string
+  value: number
+}
+
 interface Window {
   /** 与 app 通信 */
   flutter_inappwebview: any
@@ -362,4 +368,6 @@ interface Window {
   userAgreementJson: string
   /** 举报选项 */
   reportListJson: ReportInfo[]
+  /** 发布图片选项 */
+  publishImageListJson: PublishImageInfo[]
 }

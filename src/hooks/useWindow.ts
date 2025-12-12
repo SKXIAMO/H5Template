@@ -31,5 +31,8 @@ export const useWindow = () => {
   /** 举报选项 */
   const winReportListData: ReportInfo[] = window?.reportListJson ?? []
 
-  return { winUserData, winUserListData, winCommentData, winDynamicData, winChatBotDesc, winChatListData, winMessageData, winCoinData, winPrivacyAgreement, winUserAgreement, winReportListData }
+  /** 发布图片选项 */
+  const winPublishImageListData: PublishImageInfo[] = window?.publishImageListJson ?? []
+
+  return { winUserData, winUserListData, winCommentData, winDynamicData, winChatBotDesc, winChatListData, winMessageData, winCoinData, winPrivacyAgreement, winUserAgreement, winReportListData, winPublishImageListData }
 }

@@ -56,6 +56,7 @@
   }
 
   const onCheckVideo = (item: UploaderFileListItem) => {
+    console.log(item)
     videoData.url = item.objectUrl
     videoData.show = true
   }
@@ -74,7 +75,7 @@
     >
       <template v-if="!isImage" #preview-cover="item">
         <div class="up-video-box" @click="onCheckVideo(item)">
-          <video :src="item.objectUrl" />
+          <video :src="item.url" />
           <van-icon name="play-circle" class="play-box" />
         </div>
       </template>
