@@ -28,6 +28,10 @@ export function useVideoCover(): UseVideoCoverReturn {
       video.muted = true
       video.playsInline = true
 
+      // 显式设置 attributes，确保 iOS 正确识别
+      video.setAttribute('playsinline', 'true')
+      video.setAttribute('webkit-playsinline', 'true') // 旧版 iOS 兼容
+
       const url = URL.createObjectURL(file)
 
       const cleanup = () => {
