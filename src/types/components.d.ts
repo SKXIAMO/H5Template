@@ -11,6 +11,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    CbbInputTest: typeof import('./../components/cbb-input-test.vue')['default']
+    CbbTest: typeof import('./../components/cbb-test.vue')['default']
     ChatList: typeof import('./../components/ChatList.vue')['default']
     CommentCard: typeof import('./../components/CommentCard.vue')['default']
     Empty: typeof import('./../components/Empty.vue')['default']
