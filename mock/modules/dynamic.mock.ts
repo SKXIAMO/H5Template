@@ -4,7 +4,8 @@ export default [
     dynamicId: '1', // 根据 /xxx?id=1 来匹配
     userId: 'u24', // 根据该 id 去查询传入过来的 json 用户的信息
     dynamicType: 0,
-    dynamicDesc: '这是一段描述',
+    dynamicDesc:
+      'Lost in the melody, found in the music. Singing is my kind of freedom ✨🎤',
     dynamicTitleType: 0, // 动态标题类型
     // 标签列表
     dynamicTag: ['标签1'],
@@ -21,12 +22,16 @@ export default [
     dynamicTitleType: 0, // 动态标题类型
     // 标签列表
     dynamicTag: ['标签3'],
-    dynamicPic: ['https://img2.baidu.com/it/u=3024075546,1738530747&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1391', ''],
-    dynamicVideo: 'http://huanniuchat.oss-accelerate.aliyuncs.com/template_development/1765178538523_2a48b42e3b1aaf6313116b0d681754e3.MP4',
+    dynamicPic: [
+      'https://img2.baidu.com/it/u=3024075546,1738530747&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1391',
+      ''
+    ],
+    dynamicVideo:
+      'http://huanniuchat.oss-accelerate.aliyuncs.com/template_development/1765178538523_2a48b42e3b1aaf6313116b0d681754e3.MP4',
     dynamicLikeCount: 2,
     dynamicCommentCount: 0
   },
-    {
+  {
     dynamicId: '4', // 根据 /xxx?id=1 来匹配
     userId: 'u24', // 根据该 id 去查询传入过来的 json 用户的信息
     dynamicType: 1,
@@ -35,7 +40,8 @@ export default [
     // 标签列表
     dynamicTag: ['标签3'],
     dynamicPic: [],
-    dynamicVideo: 'http://huanniuchat.oss-accelerate.aliyuncs.com/template_development/1765178538523_2a48b42e3b1aaf6313116b0d681754e3.MP4',
+    dynamicVideo:
+      'http://huanniuchat.oss-accelerate.aliyuncs.com/template_development/1765178538523_2a48b42e3b1aaf6313116b0d681754e3.MP4',
     dynamicLikeCount: 2,
     dynamicCommentCount: 0
   },
@@ -48,7 +54,8 @@ export default [
     // 标签列表
     dynamicTag: ['标签3'],
     dynamicPic: [],
-    dynamicVideo: 'http://huanniuchat.oss-accelerate.aliyuncs.com/template_development/1765178538523_2a48b42e3b1aaf6313116b0d681754e3.MP4',
+    dynamicVideo:
+      'http://huanniuchat.oss-accelerate.aliyuncs.com/template_development/1765178538523_2a48b42e3b1aaf6313116b0d681754e3.MP4',
     dynamicLikeCount: 2,
     dynamicCommentCount: 0
   }

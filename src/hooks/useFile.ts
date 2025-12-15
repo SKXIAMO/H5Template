@@ -47,7 +47,7 @@ export const useFile = (cb?: UploadSuccessCallback) => {
     item.message = 'Uploading...'
     const file = item.file
     const sts: stsTypeData = stsData.value
-    const [, endpoint] = sts.host.split(`${sts.bucket}.`)
+    const [https, endpoint] = sts.host.split(`${sts.bucket}.`)
     const client = new OSS({
       accessKeyId: sts.AccessKeyId,
       accessKeySecret: sts.AccessKeySecret,
@@ -78,13 +78,13 @@ export const useFile = (cb?: UploadSuccessCallback) => {
         const videoKey = `template_development/${Date.now()}_${coverFile.name}`
         const result = await client.put(videoKey, coverFile)
         const videoRes = await client.put(key, file)
-        item.objectUrl = result.url
+        item.objectUrl = result.url.replace(/^http:\/\//, https)
         item.status = ''
-        return videoRes.url
+        return videoRes.url.replace(/^http:\/\//, https)
       } else {
         const key = `template_development/${Date.now()}_${file.name}`
         const result = await client.put(key, file)
-        return result.url
+        return result.url.replace(/^http:\/\//, https)
       }
     } catch (err) {
       item.status = 'failed'

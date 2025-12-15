@@ -57,6 +57,7 @@
   }
 
   const onCheckVideo = (item: UploaderFileListItem) => {
+    console.log(item)
     const { url, objectUrl } = item
     videoData.url = url
     videoData.objectUrl = objectUrl
@@ -76,8 +77,25 @@
       :after-read="afterRead"
     >
       <template v-if="!isImage" #preview-cover="item">
-        <div class="up-video-box" @click="onCheckVideo(item)">
-          <video :src="item.url" :poster="item.objectUrl" />
+        <div class="up-video-box" @click.stop="onCheckVideo(item)">
+          <!-- <video
+            :src="item.url"
+            :poster="item.objectUrl"
+            @click.stop="onCheckVideo(item)"
+          /> -->
+          <video
+            :src="item.url"
+            :poster="item.objectUrl"
+            muted
+            playsinline
+            webkit-playsinline
+            x5-playsinline
+            preload="metadata"
+            disablePictureInPicture
+            controlslist="nodownload nofullscreen noremoteplayback"
+            oncontextmenu="return false;"
+            style="pointer-events: none; user-select: none"
+          />
           <van-icon name="play-circle" class="play-box" />
         </div>
       </template>
@@ -93,6 +111,8 @@
     >
       <div flex h-full items-center justify-center>
         <div h-36 w-full @click.stop>
+          <!--         :src="videoData.url"
+            :poster="videoData.objectUrl" -->
           <video
             v-if="videoData.show"
             :src="videoData.url"
