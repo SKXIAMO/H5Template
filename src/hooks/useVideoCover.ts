@@ -8,7 +8,7 @@ export interface UseVideoCoverReturn {
  * 从视频文件中提取第一帧作为封面图（Blob）
  */
 export function useVideoCover(): UseVideoCoverReturn {
-  const isExtracting = ref(false)
+  const isExtracting = ref(true)
   const error = ref<string | null>(null)
 
   const extractCoverFromVideo = (file: File): Promise<Blob | null> => {
@@ -44,7 +44,7 @@ export function useVideoCover(): UseVideoCoverReturn {
 
       video.onloadedmetadata = () => {
         // 设置到第 0 秒（有些浏览器需微小偏移）
-        video.currentTime = 0.2 // 避免某些设备卡在 0s 无法渲染
+        video.currentTime = 1 // 避免某些设备卡在 0s 无法渲染
       }
 
       video.onseeked = () => {

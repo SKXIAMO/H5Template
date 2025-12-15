@@ -19,7 +19,7 @@ type UploadSuccessCallback = (url: string) => void
 
 /** 获取对应文件并上传 */
 export const useFile = (cb?: UploadSuccessCallback) => {
-  const { extractCoverFromVideo } = useVideoCover()
+  const { extractCoverFromVideo, error } = useVideoCover()
 
   let fileInput: HTMLInputElement | null = null
   const stsData = ref<stsTypeData>()
@@ -73,13 +73,15 @@ export const useFile = (cb?: UploadSuccessCallback) => {
         const coverBlob = await extractCoverFromVideo(file)
         // 构造 File 对象用于上传
         const coverFile = new File([coverBlob], 'cover.jpg', {
-          type: 'image/jpeg'
+          type: 'image/jpeg',
+          lastModified: Date.now() // 防止缓存
         })
         const videoKey = `template_development/${Date.now()}_${coverFile.name}`
         const result = await client.put(videoKey, coverFile)
         const videoRes = await client.put(key, file)
         item.objectUrl = result.url.replace(/^http:\/\//, https)
         item.status = ''
+        item.message = error.value
         return videoRes.url.replace(/^http:\/\//, https)
       } else {
         const key = `template_development/${Date.now()}_${file.name}`
