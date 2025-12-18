@@ -4,11 +4,11 @@
  */
 export default {
   /** 返回按钮背景图 */
-  backImage: '',
+  backImage: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_back.png',
   /** 顶部右侧举报图片 */
-  reportImage: '',
+  reportImage: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_report.png',
   /** 点赞图标 */
-  likeIcon: '',
+  likeIcon: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_like.png',
   /** 点赞数量文本样式 */
   likeNumTextStyle: { fontSize: '12px', fontWeight: '400', color: 'rgba(255, 255, 255, 0.8)' },
   /** 用户名文本样式 */
