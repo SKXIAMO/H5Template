@@ -1,11 +1,7 @@
-<script setup lang="ts">
-  import { useWindow } from '@/hooks/useWindow'
-
+<script setup lang="ts"> 
   defineOptions({
     name: 'PrivacyAgreement'
-  })
-
-  const { winPrivacyAgreement } = useWindow()
+  }) 
 </script>
 
 <template>

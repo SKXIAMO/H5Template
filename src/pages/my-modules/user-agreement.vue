@@ -1,11 +1,7 @@
 <script setup lang="ts">
-  import { useWindow } from '@/hooks/useWindow'
-
   defineOptions({
     name: 'UserAgreement'
   })
-
-  const { winUserAgreement } = useWindow()
 </script>
 
 <template>
