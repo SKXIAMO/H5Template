@@ -117,11 +117,9 @@
     getData()
   })
 
-  const { mineUserInfo } = useUserStore()
-
   const shouldShowReport = (item) => {
     // 不显示自己
-    return item.userId !== mineUserInfo.userId
+    return item.userId !== useData.userInfo.userId
   }
 </script>
 
