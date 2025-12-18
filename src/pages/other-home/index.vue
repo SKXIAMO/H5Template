@@ -116,6 +116,13 @@
   onMounted(() => {
     getData()
   })
+
+  const { mineUserInfo } = useUserStore()
+
+  const shouldShowReport = (item) => {
+    // 不显示自己
+    return item.userId !== mineUserInfo.userId
+  }
 </script>
 
 <template>
@@ -185,6 +192,7 @@
           <li />
           <li>
             <van-image
+              v-if="shouldShowReport(item)"
               :src="reportIcon"
               @click.stop="
                 () => {
