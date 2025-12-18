@@ -38,7 +38,9 @@
 
     try {
       // 2. 模拟接口请求（换成你的真实接口）
-      await new Promise(resolve => setTimeout(resolve, 800))
+      await new Promise(resolve =>
+        setTimeout(resolve, Math.floor(Math.random() * (2000 - 500 + 1)) + 500)
+      )
 
       // 3. 关闭 Loading
       closeToast()
