@@ -114,7 +114,8 @@
   }
 
   .unlike_icon{
-    width: var(--unlike-image-width);
-    height: var(--unlike-image-height);
+    display: block;
+    width: var(--unlike-image-width) !important;
+    height: var(--unlike-image-height) !important;
   }
 </style>
