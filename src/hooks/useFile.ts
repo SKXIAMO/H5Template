@@ -71,6 +71,7 @@ export const useFile = (cb?: UploadSuccessCallback) => {
       if (file.type.startsWith('video/')) {
         const key = `template_development/${Date.now()}_${file.name}`
         const coverBlob = await extractCoverFromVideo(file)
+        console.log(coverBlob)
         // 构造 File 对象用于上传
         const coverFile = new File([coverBlob], 'cover.jpg', {
           type: 'image/jpeg',

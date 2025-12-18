@@ -62,9 +62,6 @@
     <!-- 视频上传 -->
     <div my-6>
       <div ai-input-title>Upload(video)</div>
-      <cbb-input-test
-        v-model="formData.dynamicPic.map(v => v.objectUrl)[0]"
-      />
       <uploader-box
         v-model:list="formData.dynamicPic"
         :max-count="1"

@@ -3,10 +3,6 @@ export interface UseVideoCoverReturn {
   isExtracting: Ref<boolean>
   error: Ref<string | null>
 }
-
-/**
- * 从视频文件中提取第一帧作为封面图（Blob）
- */
 export function useVideoCover(): UseVideoCoverReturn {
   const isExtracting = ref(true)
   const error = ref<string | null>(null)
@@ -40,11 +36,13 @@ export function useVideoCover(): UseVideoCoverReturn {
       // ✅ 关键修复2：将video挂载到临时容器
       tempContainer.appendChild(video)
 
-      const url = URL.createObjectURL(file)
+      const fileReader = new FileReader()
+      fileReader.readAsDataURL(file)
+      fileReader.onload = () => {
+        video.src = fileReader.result as string
+      }
 
       const cleanup = () => {
-        URL.revokeObjectURL(url)
-
         if (tempContainer && tempContainer.parentNode) {
           tempContainer.parentNode.removeChild(tempContainer) // 移除临时容器
         }
@@ -63,15 +61,27 @@ export function useVideoCover(): UseVideoCoverReturn {
         // 设置到第 0 秒（有些浏览器需微小偏移）
         video.currentTime = 1 // 避免某些设备卡在 0s 无法渲染
 
-        // ✅ 关键修复3：必须用try/catch处理play()拒绝
-        try {
-          video.play()
-        } catch (e) {
-          error.value = `播放失败: ${e.message} (请检查WebView配置)`
-          cleanup()
-          isExtracting.value = false
-          resolve(null)
+        // ✅ 关键3：iOS 17必须用重试机制
+        let retryCount = 0
+        const tryPlay = () => {
+          video
+            .play()
+            .then(() => {
+              // 播放成功，等待onseeked
+            })
+            .catch(e => {
+              if (retryCount < 3 && e.name === 'NotAllowedError') {
+                retryCount++
+                setTimeout(tryPlay, 100) // 100ms重试
+              } else {
+                error.value = `播放失败: ${e.message} (iOS 17+ 修复)`
+                cleanup()
+                isExtracting.value = false
+                resolve(null)
+              }
+            })
         }
+        tryPlay()
       }
 
       video.onseeked = () => {
@@ -115,8 +125,6 @@ export function useVideoCover(): UseVideoCoverReturn {
           0.8
         )
       }
-
-      video.src = url
     })
   }
 
