@@ -44,7 +44,7 @@
       closeToast()
 
       // 4. 显示成功提示
-      showSuccessToast('Report submitted successfully')
+      showSuccessToast('Report successfully')
 
       // 5. 延迟 1 秒执行后续逻辑
       setTimeout(() => {

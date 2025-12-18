@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { showSuccessToast } from 'vant'
+  import { showLoadingToast,showSuccessToast,closeToast } from 'vant'
   import { detailId } from '@/hooks/useDetail'
   import { useJump } from '@/hooks/useJump'
   import { useWindow } from '@/hooks/useWindow'
@@ -30,19 +30,46 @@
       })
   }
 
-  const onShield = () => {
-    const userInfoId = detailId.value
-    userInfo.blockList.push(userInfoId)
-    userInfo.blockList = Array.from(new Set(userInfo.blockList))
-    allUserList.value.forEach(v => {
-      if (v.userId === userInfo.userId) {
-        v.blockList = userInfo.blockList
-      }
+  const onShield = async () => {
+    // 1. 显示 Loading（手动关闭）
+    showLoadingToast({
+      message: 'Blocking...',
+      forbidClick: true,
+      duration: 0
     })
 
-    showSuccessToast('success')
-    appParams({ key: 'updateUser', value: allUserList.value, state: 0 })
-    show.value = false
+    try {
+      // 2. 模拟异步（如果你后面接接口，这里直接 await 接口）
+      await new Promise(resolve => setTimeout(resolve, 500))
+
+      const userInfoId = detailId.value
+      userInfo.blockList.push(userInfoId)
+      userInfo.blockList = Array.from(new Set(userInfo.blockList))
+
+      allUserList.value.forEach(v => {
+        if (v.userId === userInfo.userId) {
+          v.blockList = userInfo.blockList
+        }
+      })
+
+      // 3. 关闭 Loading
+      closeToast()
+
+      // 4. 成功提示
+      showSuccessToast('Blocked successfully')
+
+      // 5. 延迟执行后续逻辑
+      setTimeout(() => {
+        appParams({
+          key: 'updateUser',
+          value: allUserList.value,
+          state: 0
+        })
+        show.value = false
+      }, 1000)
+    } catch (e) {
+      closeToast()
+    }
   }
 </script>
 
