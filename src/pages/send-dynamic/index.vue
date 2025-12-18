@@ -21,7 +21,7 @@
     dynamicPic: []
   })
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (!formData.dynamicDesc) {
       return showToast('Please enter the content')
     }
