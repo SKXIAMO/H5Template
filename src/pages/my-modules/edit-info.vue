@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { showSuccessToast } from 'vant'
+  import { showSuccessToast,showLoadingToast,closeToast } from 'vant'
   import { reactive } from 'vue'
   import defaultHead from '@/assets/public/default-head.png'
   import upImg from '@/assets/public/up-img.png'
@@ -23,7 +23,22 @@
     avator: ''
   })
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    // 1. 显示 Loading
+    showLoadingToast({
+      message: 'Saving...',
+      forbidClick: true,
+      duration: 0
+    })
+
+    // 2. 随机延迟 500–2000ms（模拟真实请求）
+    await new Promise(resolve =>
+      setTimeout(
+        resolve,
+        Math.floor(Math.random() * (2000 - 500 + 1)) + 500
+      )
+    )
+
     const data = {
       ...userInfo,
       name: formData.name || userInfo.name,
@@ -33,12 +48,25 @@
 
     const list = winUserListData.map(v => {
       if (v.userId === data.userId) {
-        v = data
+        return data
       }
       return v
     })
-    showSuccessToast('success')
-    appParams({ key: 'updateUser', value: list, state: 0 })
+
+    // 3. 关闭 Loading
+    closeToast()
+
+    // 4. 成功提示
+    showSuccessToast('Saved successfully')
+
+    // 5. 延迟 1 秒执行更新
+    setTimeout(() => {
+      appParams({
+        key: 'updateUser',
+        value: list,
+        state: 0
+      })
+    }, 1000)
   }
 </script>
 
