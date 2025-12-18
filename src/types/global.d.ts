@@ -175,6 +175,11 @@ interface Window {
   styleJson: {
     /** 顶部左侧返回图片 */
     backImage: string
+    /** 返回图片大小 */
+    backImageSize: {
+      width: string
+      height: string
+    }
     /** 顶部右侧举报图片 */
     reportImage: string
     /** 点赞图标 */

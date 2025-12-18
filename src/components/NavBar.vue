@@ -118,7 +118,7 @@
   >
     <template v-if="showLeftArrow" #left>
       <div flex items-end justify-center>
-        <van-image :src="backIcon" />
+        <van-image :src="backIcon" class="back_icon"/>
         <span v-if="showTitle" ml-2 ai-user-name>{{ title }}</span>
       </div>
     </template>
@@ -142,5 +142,9 @@
       rgba(14, 8, 15, 1) 0%,
       rgba(14, 8, 15, 0) 100%
     );
+  }
+  .back_icon {
+    width: var(--back-image-width);
+    height: var(--back-image-height);
   }
 </style>

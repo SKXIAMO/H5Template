@@ -5,6 +5,10 @@ export const applyDynamicTheme = () => {
   const styleJson = window.styleJson
   const root = document.documentElement.style
 
+  //返回图片大小
+  root.setProperty('--back-image-width', `${styleJson?.backImageSize?.width || 24}px`)
+  root.setProperty('--back-image-height', `${styleJson?.backImageSize?.height || 24}px`)
+
   // -------文本输入框（发送内容）样式
   root.setProperty('--ai-field-input-text-color', styleJson?.inputStyle?.color || '#ffffffcc')
   root.setProperty('--ai-field-placeholder-text-color', styleJson?.inputStyle?.placeholderCorlor || '#ffffff66')

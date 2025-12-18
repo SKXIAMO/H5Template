@@ -5,6 +5,11 @@
 export default {
   /** 返回按钮背景图 */
   backImage: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_back.png',
+  /** 返回图片大小 */
+  backImageSize: {
+    width: '24.px',
+    height: '24.px'
+  },
   /** 顶部右侧举报图片 */
   reportImage: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_report.png',
   /** 点赞图标 */
