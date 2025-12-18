@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { showLoadingToast, showSuccessToast, showToast } from 'vant'
+  import { showLoadingToast, showSuccessToast, showToast, closeToast } from 'vant'
   import { useJump } from '@/hooks/useJump'
   import { useWindow } from '@/hooks/useWindow'
   import { useUserStore } from '@/stores'
@@ -22,7 +22,7 @@
     dynamicPic: []
   })
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (!formData.dynamicDesc) {
       return showToast('Please enter the content')
     }
@@ -44,14 +44,35 @@
     } as DynamicInfo
 
     listData.value.unshift(data)
+    // 1. 显示 Loading（手动控制）
     showLoadingToast({
       message: 'Loading...',
       forbidClick: true,
-      onClose: () => {
-        showSuccessToast('success')
-        appParams({ key: 'updatePost', value: listData.value, state: 0 })
-      }
+      duration: 0
     })
+
+    // 2. 随机延迟 500–2000ms
+    await new Promise(resolve =>
+      setTimeout(
+        resolve,
+        Math.floor(Math.random() * (2000 - 500 + 1)) + 500
+      )
+    )
+
+    // 3. 关闭 Loading
+    closeToast()
+
+    // 4. 成功提示
+    showSuccessToast('Published successfully.')
+
+    // 5. 延迟 1 秒再执行后续逻辑
+    setTimeout(() => {
+      appParams({
+        key: 'updatePost',
+        value: listData.value,
+        state: 0
+      })
+    }, 1000)
   }
 </script>
 
