@@ -40,7 +40,7 @@
 
     try {
       // 2. 模拟异步（如果你后面接接口，这里直接 await 接口）
-      await new Promise(resolve => setTimeout(resolve, 500))
+      await new Promise(resolve => setTimeout(resolve, 1000))
 
       const userInfoId = detailId.value
       userInfo.blockList.push(userInfoId)
