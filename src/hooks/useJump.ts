@@ -24,12 +24,10 @@ export type AppCommunication =
 
 /** 路由跳转 */
 export const useJump = () => {
-  const { winUserListData } = useWindow()
   const { userInfo } = useUserStore()
   const router = useRouter()
   const route = useRoute()
 
-  const userList = ref<UserInfo[]>(winUserListData)
 
   /** 接收路由参数 id */
   const queryId = computed<string>(
@@ -164,24 +162,12 @@ export const useJump = () => {
     if (state === 0) {
       window.flutter_inappwebview.callHandler(key, value)
       onBack()
+      return
     }
 
     if (state === 1) {
-      window.flutter_inappwebview.callHandler(key, value).then(v => {
-        if (key === 'Recharge') {
-          userInfo.coins += v
-          userList.value.forEach(v => {
-            if (v.userId === userInfo.userId) {
-              v.coins = userInfo.coins
-            }
-          })
-          appParams({
-            key: 'updateUser',
-            value: userList.value,
-            state: 1
-          })
-        }
-      })
+      window.flutter_inappwebview.callHandler(key, value)
+      return
     }
 
     if (state === 2) {
@@ -202,4 +188,28 @@ export const useJump = () => {
     jumpToPrivateChat,
     queryId
   }
+}
+
+if (!(window as any).__recharge_bound__) {
+  ; (window as any).__recharge_bound__ = true
+
+    ; (window as any).onRechargeSuccess = (coins: number) => {
+      // 延迟获取，确保 Pinia 已初始化
+      const userStore = useUserStore()
+      const win = useWindow()
+
+      userStore.userInfo.coins += coins
+
+      win.winUserListData.forEach(v => {
+        if (v.userId === userStore.userInfo.userId) {
+          v.coins = userStore.userInfo.coins
+        }
+      })
+
+      // 同步给 Flutter
+      window.flutter_inappwebview.callHandler(
+        'updateUser',
+        win.winUserListData
+      )
+    }
 }
