@@ -12,6 +12,11 @@ export default {
   },
   /** 顶部右侧举报图片 */
   reportImage: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_report.png',
+  /** 举报图标大小 */
+  reportImageSize: {
+    width: '24px', //图标宽度
+    height: '24px', //图标高度
+  },
   /** 点赞图标 */
   likeIcon: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_like.png',
   /** 点赞数量文本样式 */

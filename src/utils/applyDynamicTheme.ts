@@ -9,6 +9,10 @@ export const applyDynamicTheme = () => {
   root.setProperty('--back-image-width', styleJson?.backImageSize?.width || '24px')
   root.setProperty('--back-image-height', styleJson?.backImageSize?.height || '24px')
 
+  //举报图片大小
+  root.setProperty('--report-image-width', styleJson?.reportImageSize?.width || '24px')
+  root.setProperty('--report-image-height', styleJson?.reportImageSize?.height || '24px')
+
   // -------文本输入框（发送内容）样式
   root.setProperty('--ai-field-input-text-color', styleJson?.inputStyle?.color || '#ffffffcc')
   root.setProperty('--ai-field-placeholder-text-color', styleJson?.inputStyle?.placeholderCorlor || '#ffffff66')

@@ -43,6 +43,7 @@
         </li>
         <li v-if="userInfo.userId !== item.userId" flex items-center>
           <van-image
+            class="report_icon"
             :src="reportIcon"
             @click="
               () => {
@@ -63,5 +64,9 @@
 <style lang="less" scoped>
   .card-comment + .card-comment {
     margin-top: 12px;
+  }
+  .report_icon {
+    width: var(--report-image-width);
+    height: var(--report-image-height);
   }
 </style>

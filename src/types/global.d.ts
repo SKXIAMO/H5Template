@@ -182,6 +182,12 @@ interface Window {
     }
     /** 顶部右侧举报图片 */
     reportImage: string
+
+    /** 举报图标大小 */
+    reportImageSize: {
+      width: '24px', //图标宽度
+      height: '24px', //图标高度
+    },
     /** 点赞图标 */
     likeIcon: string
     /** 点赞数量文本样式 */

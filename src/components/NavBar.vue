@@ -124,6 +124,7 @@
     </template>
     <template #right>
       <van-image
+        class="report_icon"
         v-if="!showRightBtn && isShowOther && showLeftArrow && showRight"
         :src="reportIcon"
         @click="isReport = true"
@@ -146,5 +147,9 @@
   .back_icon {
     width: var(--back-image-width);
     height: var(--back-image-height);
+  } 
+  .report_icon {
+    width: var(--report-image-width);
+    height: var(--report-image-height);
   }
 </style>
