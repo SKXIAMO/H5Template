@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { showLoadingToast } from 'vant'
+  import { showLoadingToast, showSuccessToast, closeToast } from 'vant'
   import defaultOptionIcon from '@/assets/public/default-option.png'
   import SelectedIcon from '@/assets/public/selected.png'
   import { useJump } from '@/hooks/useJump'
@@ -28,11 +28,26 @@
     select: 0
   })
 
-  const onSubmlt = () => {
+  const onSubmlt = async () => {
+    // 1. 显示 Loading
     showLoadingToast({
-      message: 'Loading...',
+      message: 'Submitting...',
       forbidClick: true,
-      onClose: () => {
+      duration: 0 // 重点：不自动关闭
+    })
+
+    try {
+      // 2. 模拟接口请求（换成你的真实接口）
+      await new Promise(resolve => setTimeout(resolve, 800))
+
+      // 3. 关闭 Loading
+      closeToast()
+
+      // 4. 显示成功提示
+      showSuccessToast('Report submitted successfully')
+
+      // 5. 延迟 1 秒执行后续逻辑
+      setTimeout(() => {
         if (props.type === 1) {
           onBack()
         } else {
@@ -41,8 +56,11 @@
             query: { id: route.query?.cid }
           })
         }
-      }
-    })
+      }, 1000)
+    } catch (error) {
+      // 如果失败，也要关 Loading
+      closeToast()
+    }
   }
 </script>
 
