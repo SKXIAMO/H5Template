@@ -39,6 +39,17 @@
     return show
   })
 
+  // 是否显示右侧按钮
+  const isShowOther = computed(() => {
+    const show = ['OtherHome'].includes(
+      route.name as string
+    )
+    if (show) { 
+      return queryId.value !== userInfo.userId
+    }
+    return show
+  })
+
   /**
    * Get page title
    * Located in src/locales/json
@@ -113,7 +124,7 @@
     </template>
     <template #right>
       <van-image
-        v-if="!showRightBtn && showLeftArrow && showRight"
+        v-if="!showRightBtn && isShowOther && showLeftArrow && showRight"
         :src="reportIcon"
         @click="isReport = true"
       />
