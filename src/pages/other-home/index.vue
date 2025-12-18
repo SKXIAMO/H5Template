@@ -136,7 +136,7 @@
         />
         <div h-2 w-20 relative>
           <van-image
-            v-if="!isShowFollow"
+            v-if="!isShowFollow && shouldShowReport(item)"
             round
             bottom-2
             left-14
