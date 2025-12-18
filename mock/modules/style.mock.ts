@@ -19,6 +19,12 @@ export default {
   },
   /** 点赞图标 */
   likeIcon: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_like.png',
+
+  /** 点赞图标大小 */
+  unlikeImageSize: {
+    width: '40.px', //图标宽度
+    height: '40.px', //图标高度
+  },
   /** 点赞数量文本样式 */
   likeNumTextStyle: { fontSize: '12px', fontWeight: '400', color: 'rgba(255, 255, 255, 0.8)' },
   /** 用户名文本样式 */

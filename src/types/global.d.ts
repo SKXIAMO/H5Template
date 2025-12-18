@@ -190,6 +190,11 @@ interface Window {
     },
     /** 点赞图标 */
     likeIcon: string
+    /** 点赞图标大小 */
+    unlikeImageSize: {
+      width: '40.px', //图标宽度
+      height: '40.px', //图标高度
+    },
     /** 点赞数量文本样式 */
     likeNumTextStyle: FontStyle
     /** 用户名称样式 */
