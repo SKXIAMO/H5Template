@@ -49,12 +49,14 @@
         absolute
         class="bottom-[-64px]"
       >
-        <div class="like_icon_size">
-          <van-image 
-          :src="isLike ? likeIcon : detailLikeIcon"
-          fit="cover"
+        <div
+          class="like_icon"
           @click="onLike"
-        />
+        >
+          <img
+            :src="isLike ? likeIcon : detailLikeIcon"
+            alt="like"
+          />
         </div>
         <span class="public-number">
           {{ dynamicInfo?.dynamicLikeCount }}
@@ -114,14 +116,15 @@
     padding-bottom: calc(80px + var(--ai-view-padding-bottom));
   } 
 
-  .like_icon_size {
-    width: var(--unlike-image-width);
+  .like_icon {
+    width: var(--unlike-image-width);   /* 可用 CSS 变量 */
     height: var(--unlike-image-height);
+    cursor: pointer;
   }
 
-  .like_icon_size :deep(.van-image),
-  .like_icon_size :deep(img) {
+  .like_icon img {
     width: 100%;
     height: 100%;
+    object-fit: cover;  /* 保持图片比例填满容器 */
   }
 </style>
