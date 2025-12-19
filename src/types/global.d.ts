@@ -271,7 +271,7 @@ interface Window {
         width: string
         height: string
         color: string
-        rightIcon: string,
+        rightIcon: string,//右箭头图标
         rightIconWidth: string,
         rightIconHeight: string,
       }
@@ -297,7 +297,7 @@ interface Window {
 
     /** 短视频 - ShortVideo 路由 */
     shortVideoStyle: GeneralStyle & {
-      /** 添加图标 */
+      /** 关注他人图标 */
       addIcon: string
       /** 留言图标 */
       messageIcon: string

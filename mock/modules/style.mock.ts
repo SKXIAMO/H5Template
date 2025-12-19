@@ -218,8 +218,8 @@ export default {
   /** 其他用户主页样式 */
   otherHomeStyle: {
     backgroundColor: '#0e080f',
-    /** 添加图标 */
-    addIcon: '',
+    /** 关注他人图标 */
+    addIcon: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_follow.png',
     /** 留言图标 */
     messageIcon: '',
     /** 点赞图标 */
