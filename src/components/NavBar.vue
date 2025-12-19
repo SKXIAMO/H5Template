@@ -34,7 +34,7 @@
       const { userId } = winDynamicData.find(
         v => v.dynamicId === queryId.value
       )
-      return userId === userInfo.userId
+      return userId !== userInfo.userId
     }
     return show
   })
@@ -130,7 +130,7 @@
     </template>
     <template #right>
       <van-image
-        v-if="(!showRightBtn || isShowOther) && showLeftArrow && showRight"
+        v-if="(showRightBtn || isShowOther) && showLeftArrow && showRight"
         :src="reportIcon"
         :style="{
           width: 'var(--report-image-width)',
