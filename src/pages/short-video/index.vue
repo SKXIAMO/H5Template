@@ -98,7 +98,10 @@
             <van-image
               v-if="userInfo.userId !== dynamicInfo?.userId"
               :src="reportIcon"
-              class="report_icon"
+              :style="{
+                width: 'var(--report-image-width)',
+                height: 'var(--report-image-height)'
+              }"
               @click="isReport = true"
             />
           </li>
@@ -149,11 +152,7 @@
 <style lang="less" scoped>
   .video-comment-card_box {
     padding-bottom: calc(60px + var(--ai-view-padding-bottom));
-  } 
-  .report_icon {
-    width: var(--report-image-width);
-    height: var(--report-image-height);
-  }
+  }  
   .video-box {
     width: 100%;
     height: 100vh;

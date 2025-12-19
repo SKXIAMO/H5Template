@@ -192,9 +192,12 @@
           <li />
           <li>
             <van-image
-              v-if="shouldShowReport(item)"
-              class="report_icon"
+              v-if="shouldShowReport(item)" 
               :src="reportIcon"
+              :style="{
+                width: 'var(--report-image-width)',
+                height: 'var(--report-image-height)'
+              }"
               @click.stop="
                 () => {
                   isReport = true
@@ -237,11 +240,7 @@
   .other-home_box {
     min-height: 100vh;
     background: var(--ai-other-home-bg-color);
-  }
-  .report_icon {
-    width: var(--report-image-width);
-    height: var(--report-image-height);
-  }
+  } 
 
   .top-user-info {
     background: url('@/assets/public/top-home.png');

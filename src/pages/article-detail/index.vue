@@ -49,9 +49,12 @@
         absolute
         class="bottom-[-64px]"
       >
-        <van-image
-          class="unlike_icon"
+        <van-image 
           :src="isLike ? likeIcon : detailLikeIcon"
+          :style="{
+            width: 'var(--unlike-image-width)',
+            height: 'var(--unlike-image-height)'
+          }"
           fit="cover"
           @click="onLike"
         />
@@ -111,11 +114,5 @@
 
   .article-comment-card_box {
     padding-bottom: calc(80px + var(--ai-view-padding-bottom));
-  }
-
-  .unlike_icon{
-    display: block;
-    width: var(--unlike-image-width) !important;
-    height: var(--unlike-image-height) !important;
-  }
+  } 
 </style>
