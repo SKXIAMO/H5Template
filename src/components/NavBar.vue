@@ -118,14 +118,19 @@
   >
     <template v-if="showLeftArrow" #left>
       <div flex items-end justify-center>
-        <van-image :src="backIcon" class="back_icon"/>
+        <van-image 
+          :src="backIcon" 
+          width: var(--back-image-width);
+          height: var(--back-image-height);
+        />
         <span v-if="showTitle" ml-2 ai-user-name>{{ title }}</span>
       </div>
     </template>
     <template #right>
       <van-image
-        class="report_icon"
-        v-if="!showRightBtn && isShowOther && showLeftArrow && showRight"
+        width: var(--report-image-width);
+        height: var(--report-image-height);
+        v-if="(!showRightBtn || isShowOther) && showLeftArrow && showRight"
         :src="reportIcon"
         @click="isReport = true"
       />
@@ -143,13 +148,5 @@
       rgba(14, 8, 15, 1) 0%,
       rgba(14, 8, 15, 0) 100%
     );
-  }
-  .back_icon {
-    width: var(--back-image-width);
-    height: var(--back-image-height);
-  } 
-  .report_icon {
-    width: var(--report-image-width);
-    height: var(--report-image-height);
   }
 </style>
