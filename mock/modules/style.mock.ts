@@ -196,7 +196,7 @@ export default {
   shortVideoStyle: {
     backgroundColor: '#0e080f',
     /** 添加图标 */
-    addIcon: '',
+    addIcon: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_follow.png',
     /** 留言图标 */
     messageIcon: '',
     /** 点赞图标 */
