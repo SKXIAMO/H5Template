@@ -220,6 +220,8 @@ export default {
     backgroundColor: '#0e080f',
     /** 关注他人图标 */
     addIcon: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_follow.png',
+    addIconWidth: '20px',
+    addIconHeight: '20px',
     /** 留言图标 */
     messageIcon: '',
     /** 点赞图标 */

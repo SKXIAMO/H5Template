@@ -136,6 +136,7 @@
         />
         <div h-2 w-20 relative>
           <van-image
+            v-if="!isShowFollow || shouldShowReport(userInfo)"
             round
             bottom-2
             left-14
@@ -143,6 +144,10 @@
             :src="otherHomeAddIcon"
             fit="cover"
             @click="onFollow"
+            :style="{
+              width: 'var(--other-home-follow-width)',
+              height: 'var(--other-home-follow-height)'
+            }"
           />
         </div>
         <span mt-1 ai-user-name>{{ userInfo.name }}</span>
