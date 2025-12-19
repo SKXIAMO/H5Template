@@ -185,15 +185,15 @@ interface Window {
 
     /** 举报图标大小 */
     reportImageSize: {
-      width: '24px', //图标宽度
-      height: '24px', //图标高度
+      width: string, //图标宽度
+      height: string, //图标高度
     },
     /** 点赞图标 */
     likeIcon: string
     /** 点赞图标大小 */
     unlikeImageSize: {
-      width: '40px', //图标宽度
-      height: '40px', //图标高度
+      width: string, //图标宽度
+      height: string, //图标高度
     },
     /** 点赞数量文本样式 */
     likeNumTextStyle: FontStyle
@@ -212,7 +212,9 @@ interface Window {
     inputStyle: BorderStyle & {
       /** 右侧发送图标 */
       sendIcon: string
-      placeholderCorlor: string
+      placeholderCorlor: string,
+      sendIconWidth: string,
+      sendIconHeight: string,
     }
     /** 表单标题 */
     formTitleStyle: FontStyle & {

@@ -64,6 +64,8 @@ export default {
     placeholderCorlor: 'rgba(255, 255, 255, 0.4)',
     /** 右侧发送图标 */
     sendIcon: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_send_icon.png',
+    sendIconWidth: '21px',
+    sendIconHeight: '21px',
   },
   /** 表单标题样式 */
   formTitleStyle: {

@@ -24,7 +24,14 @@
       >
         <template #button>
           <div flex items-center>
-            <van-image :src="inputSendIcon" @click="onSend" />
+            <van-image 
+              :src="inputSendIcon" 
+              @click="onSend"
+              :style="{
+                width: 'var(--comment-input-image-width)',
+                height: 'var(--comment-input-image-height)'
+              }"
+             />
           </div>
         </template>
       </van-field>
