@@ -152,7 +152,9 @@ export default {
       width: '227px',
       height: '56px',
       color: 'rgba(255, 255, 255, 1)',
-      rightIcon: ''
+      rightIcon: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_ai_chat_arr.png',
+      rightIconWidth: '21px',
+      rightIconHeight: '21px',
     },
     /** 弹框样式 */
     popupStyle: {

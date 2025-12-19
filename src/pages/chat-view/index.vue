@@ -61,7 +61,14 @@
               X {{ winChatBotDesc.points }}
             </span>
             <span text-4 font-400 ml-8 mr-1>Chat</span>
-            <van-image :src="chatBtnIcon" fit="cover" />
+            <van-image
+              :src="chatBtnIcon"
+              fit="cover"
+              :style="{
+                width: 'var(--ai-btn-arr-image-width)',
+                height: 'var(--ai-btn-arr-image-height)'
+              }"
+            />
           </p>
         </li>
       </ul>

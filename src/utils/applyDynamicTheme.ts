@@ -21,6 +21,10 @@ export const applyDynamicTheme = () => {
   root.setProperty('--comment-input-image-width', styleJson?.inputStyle?.sendIconWidth || '21px')
   root.setProperty('--comment-input-image-height', styleJson?.inputStyle?.sendIconHeight || '21px')
 
+  //ai聊天按钮右箭头
+  root.setProperty('--ai-btn-arr-image-width', styleJson?.chatViewStyle?.btnStyle?.rightIconWidth || '16px')
+  root.setProperty('--ai-btn-arr-image-height', styleJson?.chatViewStyle?.btnStyle?.rightIconHeight || '16px')
+
   // -------文本输入框（发送内容）样式
   root.setProperty('--ai-field-input-text-color', styleJson?.inputStyle?.color || '#ffffffcc')
   root.setProperty('--ai-field-placeholder-text-color', styleJson?.inputStyle?.placeholderCorlor || '#ffffff66')

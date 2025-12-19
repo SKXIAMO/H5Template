@@ -271,7 +271,9 @@ interface Window {
         width: string
         height: string
         color: string
-        rightIcon: string
+        rightIcon: string,
+        rightIconWidth: string,
+        rightIconHeight: string,
       }
       /** 弹框样式 */
       popupStyle: {
