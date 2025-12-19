@@ -49,15 +49,13 @@
         absolute
         class="bottom-[-64px]"
       >
-        <van-image 
+        <div class="like_icon_size">
+          <van-image 
           :src="isLike ? likeIcon : detailLikeIcon"
-          :style="{
-            width: 'var(--unlike-image-width)',
-            height: 'var(--unlike-image-height)'
-          }"
           fit="cover"
           @click="onLike"
         />
+        </div>
         <span class="public-number">
           {{ dynamicInfo?.dynamicLikeCount }}
         </span>
@@ -115,4 +113,15 @@
   .article-comment-card_box {
     padding-bottom: calc(80px + var(--ai-view-padding-bottom));
   } 
+
+  .like_icon_size {
+    width: var(--unlike-image-width);
+    height: var(--unlike-image-height);
+  }
+
+  .like_icon_size :deep(.van-image),
+  .like_icon_size :deep(img) {
+    width: 100%;
+    height: 100%;
+  }
 </style>
