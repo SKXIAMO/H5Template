@@ -173,8 +173,8 @@ export default {
       /** 背景样式 */
       bgImageStyle: {
         width: '280px',
-        height: '212px',
-        bgImg: ''
+        height: '210px',
+        bgImg: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_ai_pay_bg.png',
       }
     }
   },
