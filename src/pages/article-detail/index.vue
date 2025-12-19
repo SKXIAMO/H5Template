@@ -49,15 +49,15 @@
         absolute
         class="bottom-[-64px]"
       >
-        <div
-          class="like_icon"
+        <van-image 
+          :src="isLike ? likeIcon : detailLikeIcon"
+          :style="{
+            width: 'var(--unlike-image-width)',
+            height: 'var(--unlike-image-height)'
+          }"
+          fit="cover"
           @click="onLike"
-        >
-          <img
-            :src="isLike ? likeIcon : detailLikeIcon"
-            alt="like"
-          />
-        </div>
+        />
         <span class="public-number">
           {{ dynamicInfo?.dynamicLikeCount }}
         </span>
@@ -115,16 +115,4 @@
   .article-comment-card_box {
     padding-bottom: calc(80px + var(--ai-view-padding-bottom));
   } 
-
-  .like_icon {
-    width: var(--unlike-image-width);   /* 可用 CSS 变量 */
-    height: var(--unlike-image-height);
-    cursor: pointer;
-  }
-
-  .like_icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;  /* 保持图片比例填满容器 */
-  }
 </style>
