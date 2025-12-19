@@ -171,7 +171,11 @@
         <li
           v-if="shouldShowReport(userInfo)"
         >
-          <van-image :src="otherHomeMessageIcon" class="icon-box" />
+          <van-image :src="otherHomeMessageIcon" class="icon-box" 
+            :style="{
+              width: 'var(--other-home-chat-width)',
+              height: 'var(--other-home-chat-height)'
+            }"/>
           <span ml-3 class="public-number !mt-0" @click="onAddChat">
             Chat
           </span>
@@ -230,7 +234,10 @@
         </ul>
         <span class="bottom-text">{{ item.dynamicDesc }}</span>
         <div class="like-box">
-          <van-image :src="otherHomeLikeIcon" class="icon-box" />
+          <van-image :src="otherHomeLikeIcon" class="icon-box" :style="{
+              width: 'var(--other-home-like-post-width)',
+              height: 'var(--other-home-like-post-height)'
+            }"/>
           <span class="public-number">{{ item.dynamicLikeCount }}</span>
         </div>
       </div>

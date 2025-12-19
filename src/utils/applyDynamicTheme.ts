@@ -29,6 +29,14 @@ export const applyDynamicTheme = () => {
   root.setProperty('--other-home-follow-width', styleJson?.otherHomeStyle?.addIconWidth || '20px')
   root.setProperty('--other-home-follow-height', styleJson?.otherHomeStyle?.addIconHeight || '20px')
 
+  //他人主页私聊图标
+  root.setProperty('--other-home-chat-width', styleJson?.otherHomeStyle?.messageIconWidth || '40px')
+  root.setProperty('--other-home-chat-height', styleJson?.otherHomeStyle?.messageIconHeight || '40px')
+
+  //他人主页帖子喜欢图标
+  root.setProperty('--other-home-like-post-width', styleJson?.otherHomeStyle?.likeIconWidth || '40px')
+  root.setProperty('--other-home-like-post-height', styleJson?.otherHomeStyle?.likeIconHeight || '40px')
+
   //视频详情关注图标
   root.setProperty('--video-details-follow-width', styleJson?.shortVideoStyle?.addIconWidth || '20px')
   root.setProperty('--video-details-follow-height', styleJson?.shortVideoStyle?.addIconHeight || '20px')

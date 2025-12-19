@@ -323,8 +323,12 @@ interface Window {
       addIconHeight: string,
       /** 留言图标 */
       messageIcon: string
+      messageIconWidth: string,
+      messageIconHeight: string,
       /** 点赞图标 */
       likeIcon: string
+      likeIconWidth: string,
+      likeIconHeight: string,
       /** 顶部数据样式 */
       topDataStyle: {
         /** 说明 */

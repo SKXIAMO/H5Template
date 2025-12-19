@@ -227,9 +227,13 @@ export default {
     addIconWidth: '20px',
     addIconHeight: '20px',
     /** 留言图标 */
-    messageIcon: '',
+    messageIcon: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/video_comments.png',
+    messageIconWidth: '40px',
+    messageIconHeight: '40px',
     /** 点赞图标 */
-    likeIcon: '',
+    likeIcon: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_like_post.png',
+    likeIconWidth: '40px',
+    likeIconHeight: '40px',
     /** 顶部数据样式 */
     topDataStyle: {
       /** 说明 */
