@@ -118,7 +118,14 @@
       </div>
       <ul class="bottom-btn">
         <li @click="isPopup = true">
-          <van-image :src="messageIcon" class="icon-box" />
+          <van-image 
+            :src="messageIcon" 
+            class="icon-box"
+            :style="{
+              width: 'var(--video-details-comment-width)',
+              height: 'var(--video-details-comment-height)'
+            }" 
+          />
           <span class="public-number">
             {{ dynamicInfo?.dynamicCommentCount }}
           </span>

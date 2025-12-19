@@ -303,6 +303,8 @@ interface Window {
       addIconHeight: string,
       /** 留言图标 */
       messageIcon: string
+      messageIconWidth: string,
+      messageIconHeight: string,
       /** 点赞图标 */
       likeIcon: string
       avatarWidth: string

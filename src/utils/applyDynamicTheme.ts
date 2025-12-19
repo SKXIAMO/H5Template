@@ -33,6 +33,10 @@ export const applyDynamicTheme = () => {
   root.setProperty('--video-details-follow-width', styleJson?.shortVideoStyle?.addIconWidth || '20px')
   root.setProperty('--video-details-follow-height', styleJson?.shortVideoStyle?.addIconHeight || '20px')
 
+  //视频详情评论图标
+  root.setProperty('--video-details-comment-width', styleJson?.shortVideoStyle?.messageIconWidth || '40px')
+  root.setProperty('--video-details-comment-height', styleJson?.shortVideoStyle?.messageIconHeight || '40px')
+
   // -------文本输入框（发送内容）样式
   root.setProperty('--ai-field-input-text-color', styleJson?.inputStyle?.color || '#ffffffcc')
   root.setProperty('--ai-field-placeholder-text-color', styleJson?.inputStyle?.placeholderCorlor || '#ffffff66')
