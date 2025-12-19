@@ -14,8 +14,8 @@ export const applyDynamicTheme = () => {
   root.setProperty('--report-image-height', styleJson?.reportImageSize?.height || '24px')
 
   //点赞图片大小（不高亮）
-  root.setProperty('--unlike-image-width', styleJson?.unlikeImageSize?.width || '40.px')
-  root.setProperty('--unlike-image-height', styleJson?.unlikeImageSize?.height || '40.px')
+  root.setProperty('--unlike-image-width', styleJson?.unlikeImageSize?.width || '40px')
+  root.setProperty('--unlike-image-height', styleJson?.unlikeImageSize?.height || '40px')
 
   // -------文本输入框（发送内容）样式
   root.setProperty('--ai-field-input-text-color', styleJson?.inputStyle?.color || '#ffffffcc')
