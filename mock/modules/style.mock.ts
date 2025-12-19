@@ -57,13 +57,13 @@ export default {
     backgroundColor: 'rgba(62, 57, 63, 1)',
     borderRadius: '30px',
     width: '100%',
-    height: '44px',
+    height: '46px',
     fontSize: '14px',
     fontWeight: '400',
     color: 'rgba(255, 255, 255, 0.8)',
     placeholderCorlor: 'rgba(255, 255, 255, 0.4)',
     /** 右侧发送图标 */
-    sendIcon: ''
+    sendIcon: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_send_icon.png',
   },
   /** 表单标题样式 */
   formTitleStyle: {
