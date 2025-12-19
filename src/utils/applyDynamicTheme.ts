@@ -29,6 +29,10 @@ export const applyDynamicTheme = () => {
   root.setProperty('--other-home-follow-width', styleJson?.otherHomeStyle?.addIconWidth || '20px')
   root.setProperty('--other-home-follow-height', styleJson?.otherHomeStyle?.addIconHeight || '20px')
 
+  //视频详情关注图标
+  root.setProperty('--video-details-follow-width', styleJson?.shortVideoStyle?.addIconWidth || '20px')
+  root.setProperty('--video-details-follow-height', styleJson?.shortVideoStyle?.addIconHeight || '20px')
+
   // -------文本输入框（发送内容）样式
   root.setProperty('--ai-field-input-text-color', styleJson?.inputStyle?.color || '#ffffffcc')
   root.setProperty('--ai-field-placeholder-text-color', styleJson?.inputStyle?.placeholderCorlor || '#ffffff66')

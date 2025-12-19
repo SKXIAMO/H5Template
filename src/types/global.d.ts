@@ -299,6 +299,8 @@ interface Window {
     shortVideoStyle: GeneralStyle & {
       /** 关注他人图标 */
       addIcon: string
+      addIconWidth: string,
+      addIconHeight: string,
       /** 留言图标 */
       messageIcon: string
       /** 点赞图标 */

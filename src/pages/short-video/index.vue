@@ -90,6 +90,10 @@
             :src="addIcon"
             fit="cover"
             @click="onFollow"
+            :style="{
+              width: 'var(--video-details-follow-width)',
+              height: 'var(--video-details-follow-height)'
+            }"
           />
         </div>
         <ul ml-3 shrink w-full>
