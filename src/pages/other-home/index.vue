@@ -136,7 +136,6 @@
         />
         <div h-2 w-20 relative>
           <van-image
-            v-if="!isShowFollow"
             round
             bottom-2
             left-14
