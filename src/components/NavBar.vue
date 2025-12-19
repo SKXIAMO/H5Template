@@ -120,18 +120,22 @@
       <div flex items-end justify-center>
         <van-image 
           :src="backIcon" 
-          width: var(--back-image-width);
-          height: var(--back-image-height);
+          :style="{
+            width: 'var(--back-image-width)',
+            height: 'var(--back-image-height)',
+          }"
         />
         <span v-if="showTitle" ml-2 ai-user-name>{{ title }}</span>
       </div>
     </template>
     <template #right>
       <van-image
-        width: var(--report-image-width);
-        height: var(--report-image-height);
         v-if="(!showRightBtn || isShowOther) && showLeftArrow && showRight"
         :src="reportIcon"
+        :style="{
+          width: 'var(--report-image-width)',
+          height: 'var(--report-image-height)'
+        }"
         @click="isReport = true"
       />
     </template>
