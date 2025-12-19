@@ -123,6 +123,10 @@
           <van-image
             :src="isVideoLike ? likeIcon : detailLikeIcon"
             class="icon-box"
+            :style="{
+              width: 'var(--unlike-image-width)',
+              height: 'var(--unlike-image-height)'
+            }"
             @click="onVideoLike"
           />
           <span class="public-number">

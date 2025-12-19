@@ -196,7 +196,7 @@ export default {
     /** 留言图标 */
     messageIcon: '',
     /** 点赞图标 */
-    likeIcon: '',
+    likeIcon: 'https://huanniuchat.oss-accelerate.aliyuncs.com/template_development/sivio_like_post.png',
     avatarWidth: '48px',
     avatarHeight: '48px',
     /** 按钮样式 */
