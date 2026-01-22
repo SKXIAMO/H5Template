@@ -4,7 +4,7 @@
 export const rootRouteList: readonly string[] = ['Home', 'Profile']
 
 /** 顶部导航栏不需要填充的路由 */
-export const routeTopNavBar: readonly string[] = ['ArticleDetail', 'ChatDetails', 'ShortVideo', 'OtherHome']
+export const routeTopNavBar: readonly string[] = ['ArticleDetail', 'ChatView', 'ChatDetails', 'ShortVideo', 'OtherHome']
 
 /** 不显示右边按钮路由 */
 export const routeNoRightBtn: readonly string[] = ['SendDynamic', 'ChatDetails', 'PublishVideo', 'ReportIndex', 'PrivateChat', 'SetupPage', 'Follow', 'Fans', 'BlackList', 'EditInfo', 'GoldCoin', 'UserAgreement', 'PrivacyAgreement', 'CallIndex']

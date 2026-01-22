@@ -50,6 +50,14 @@
     return show
   })
 
+  // 是否显示右侧按钮
+  const isShowAiRightBtn = computed(() => {
+    const show = ['ChatView'].includes(
+      route.name as string
+    )
+    return show
+  })
+
   /**
    * Get page title
    * Located in src/locales/json
@@ -130,7 +138,7 @@
     </template>
     <template #right>
       <van-image
-        v-if="(showRightBtn || isShowOther) && showLeftArrow && showRight"
+        v-if="(showRightBtn || isShowOther || isShowAiRightBtn) && showLeftArrow && showRight"
         :src="reportIcon"
         :style="{
           width: 'var(--report-image-width)',
